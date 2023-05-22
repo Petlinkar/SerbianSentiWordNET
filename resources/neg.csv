@@ -1,0 +1,193 @@
+ID,POS,NEG,Lemme,Definicija
+ENG30-01566705-v,0.0,0.75,"smrskati,skršiti",Uništiti ili oštetiti na nasilan način.
+ENG30-01797051-v,0.0,0.75,"oplakati,tugovati,jadikovati,ožaliti",Osećati tugu.
+ENG30-07305234-n,0.0,0.625,"nedaća,beda",Uzrok velikih patnji i nesreće.
+ENG30-05829480-n,0.0,0.625,negativni stimulans,stimulans sa nepoželjnim posledicama
+ENG30-07298982-n,0.0,0.75,"udarac,udar,šok",neprijatno ili razočaravajuće iznenađenje
+ENG30-05942888-n,0.0,0.625,"ubeđenje,uverenje",nepokolebljivo verovanje u nešto bez potrebe za dokazima ili nalazima
+ENG30-07510625-n,0.0,0.75,šok,iznenadno stanje žestoke emocionalne uznemirenosti
+ENG30-00802238-n,0.0,0.625,rizik,poduhvat koji se preduzima bez obzira na mogući gubitak ili povredu
+ENG30-05645199-n,0.0,0.625,"blokada,mentalna blokada",Nesposobnost osobe da se seti ili uradi ono što obično može; često uzrokovana emoionalnom napetošću.
+ENG30-02123424-v,0.0,0.875,"probosti,žigati",uzrokovati probadanje
+ENG30-02579447-v,0.0,0.625,"pokvariti,iskvariti,korumpirati,demoralisati,pervertirati,profanisati",moralno iskvariti
+ENG30-00419908-n,0.125,0.75,"zlostavljanje,zlostava",okrutno ili nehumano postupanje
+ENG30-02513989-v,0.0,0.75,"postupiti nepravično,učiniti nažao",naneti nekome nepravdu
+ENG30-07506569-n,0.0,0.75,"stid,sramota",bolan osećaj koji proizlazi iz svesti o nedovoljnosti ili krivici
+ENG30-02451951-a,0.0,0.75,nepopustljiv,"Koji nije popustljiv, kojim se teško upravlja."
+ENG30-00674340-v,0.0,0.875,"ne odobravati,zamerati",Smatrati da je nešto loše ili pogrešno.
+ENG30-00025654-v,0.0,0.625,"opustiti,relaksirati",Ućiniti da se neko oseti opuštenim.
+ENG30-01549291-a,0.125,0.75,nemoralan,Koji narušava principe dobra i zla.
+ENG30-14425974-n,0.0,0.625,nezrelost,Stanje koje još ne odgovara zrelosti.
+ENG30-07289014-n,0.0,0.625,"nevolja,teškoća",Ono što izaziva bol ili patnju.
+ENG30-00927049-v,0.0,0.75,"spekulirati,spekulisati,nagađati",Pričati na besposlen ili neobavezan način sa elementom sumnje ili bez dovoljno razloga da se dođe do zaključka.
+ENG30-10205231-n,0.0,0.75,"podređen,potčinjen",Neko nižeg ranga ili položaja ili kvaliteta.
+ENG30-02124106-v,0.0,0.875,"bazdeti,smrdeti,zaudarati",Ispuštati vonj.
+ENG30-01181475-n,0.0,0.625,"ustaljeni proces,ustaljeni zakonski proces",Izvršenje pravde u skladu sa ustanovljenim pravilima i principima.
+ENG30-00567593-a,0.0,0.625,nepovezan,Koji nije spojen ili vezan.
+ENG30-13989051-n,0.0,0.625,"jad,tugovanje",Stanje u kome je neko tužan.
+ENG30-01752167-a,0.125,0.75,nesavršen,Koji nije savršen; defektan ili neadekvatan.
+ENG30-00419289-a,0.0,0.75,prljav,Koji na sebi ima prljavštinu ili nečistoću.
+ENG30-14322699-n,0.0,0.75,bol,Simptom neke fizičke povrede ili poremećaja.
+ENG30-07206096-n,0.0,0.625,"povlačenje,poricanje",Opovrgavanje ili povlačenje prethodne tvrdnje.
+ENG30-00070965-n,0.0,0.625,"greška,pogreška","Pogrešna akcija koja se može pripisati lošoj proceni, neznanju ili nepažnji."
+ENG30-07505538-n,0.0,0.75,nebriga,Osećanje pomanjkanja brige.
+ENG30-07532440-n,0.0,0.75,"tuga,žalost",Osećanja koja se javljaju kada osoba nije u srećnom stanju.
+ENG30-07535670-n,0.0,0.875,"žaljenje,žal",Tuga povezana sa nekim učinjenim zlom ili nekim razočaranjem.
+ENG30-07523905-n,0.125,0.75,"teskoba,uznemirenost",nejasno i neprijatno osećanje koje se ima u iščekivanju nekog lošeg ishoda
+ENG30-01794668-v,0.0,0.75,"patiti,trpeti",Biti podvrgnut (emocionalnom bolu).
+ENG30-00835609-a,0.0,0.625,neefikasan,Koji ne proizvodi nameravani efekat.
+ENG30-01793177-v,0.0,0.625,povrediti,povrediti nečija osećanja
+ENG30-01799794-v,0.0,0.625,"poniziti,ojaditi,osramotiti,uniziti",Posramiti nekoga; povrediti nečiji ponos.
+ENG30-02124332-v,0.0,0.875,vonjati,loše mirisati
+ENG30-07535010-n,0.0,0.625,"skrhanost,bol",Velika tuga uzrokovana gubitkom voljene osobe (posebno smrću).
+ENG30-00735936-n,0.0,0.625,nepristojnost,nedolično ili nemoralno ponašanje
+ENG30-14478433-n,0.0,0.625,bankrot,nemogućnost da se otplate svi dugovi kada dospeju za naplatu
+ENG30-14285662-n,0.0,0.625,"povreda,ozleda","Bilo kakva oštetočina na telu izazvana nasiljem, nezgodom ili prelomom."
+ENG30-07519253-n,0.0,0.875,"strah,strahota,bojazan",Osećaj koji se doživljava u očekivanju nekog određenog bola ili opsasnosti i obično ga prati želja da se pobegne.
+ENG30-07534430-n,0.0,0.625,tuga,Osećanje velike žalosti povezano sa gubitkom ili lišavanjem.
+ENG30-14336539-n,0.0,0.625,"zapaljenje,upala","Odgovor telesnog tkiva na povredu ili nadržaj; karakteriše ga bol, otok, crvenilo i pečenje."
+ENG30-14052046-n,0.0,0.625,"zdravstveni problem,loše zdravstveno stanje",Stanje u kome čovek ne može da funkcioniše normalno i bez bola.
+ENG30-01172889-a,0.0,0.75,bolestan,Koji nije u dobrom zdravlju tela ili duha.
+ENG30-00258857-v,0.0,0.75,"oštetiti,pokvariti",Izazvati štetu na nečemu.
+ENG30-00066191-v,0.0,0.75,plakati,"Prolivati suze zbog tuge, besa ili bola."
+ENG30-02575082-v,0.0,0.625,"varati,podvaliti","Biti lažljiv, neiskrene prema nekome."
+ENG30-00002098-a,0.0,0.75,nesposoban,"Koji nema potrebne sposobnosti, veštinu ili znanje."
+ENG30-01823092-a,0.0,0.75,nemoguć,Koji ne može da se desi ili ostvari ili s kojim se ne može rukovati.
+ENG30-01090993-a,0.0,0.75,nefunkcionalan,Koji nema ili ne obavlja funkciju.
+ENG30-01246697-n,0.0,0.75,teroristički napad,Iznenadni napad koji uključuje namernu upotrebu nasilja prema civilima da bi se postigli politički ili religiozni ciljevi.
+ENG30-04625284-n,0.0,0.625,nemir,"Nemogućnost da se odmori, opusti ili bude miran."
+ENG30-02085132-a,0.0,0.625,"nenaučan,neznanstven",Koji nije u skladu sa metodama ili principima nauke.
+ENG30-05645597-n,0.125,0.75,glupost,Slaba sposobnost da se razume iskustvo ili profitira iz njega.
+ENG30-02363358-a,0.125,0.75,neprijemčiv,Ne biti podložan nečemu.
+ENG30-14541044-n,0.0,0.75,opasnost,Stanje podložnosti povredi ili ozledi.
+ENG30-14493145-n,0.0,0.625,siromaštvo,Stanje u kome se malo novca i materijalnih dobara.
+ENG30-13990675-n,0.0,0.625,krivica,Stanje kada je učinjen prekršaj.
+ENG30-07386920-n,0.0,0.625,"mumljanje,mumlanje,mrmljanje",Tih neprekidan nerazumljiv zvuk; obično ga prati kretanje usana koje ne proivodi artikulisani govor.
+ENG30-07301336-n,0.0,0.75,nesreća,"Nezgoda, posebno ona koja prouzrokuje povredu ili smrt."
+ENG30-05139094-n,0.0,0.875,"mana,nedostatak",Kvalitet nečega što nije adekvatno ili perfektno.
+ENG30-05161614-n,0.0,0.75,"nedostatak,nepovoljan položaj",Kvalitet nekog ili nečega što ima slabiju ili manje poželjnu poziciju.
+ENG30-01688271-a,0.0,0.75,neoriginalan,"Koji nije originalan; nije produktivan, ne donosi ništa neobično niti sveže."
+ENG30-04714440-n,0.125,0.75,"inkompatibilnost,neusklađenost",Kvalitet onoga što ne može da postoji ili radi u usklađenoj kombinaciji.
+ENG30-00744916-a,0.0,0.75,težak,"Ono što nije lako, zahteva veliki fizički ili mentalni napor da bi se ostvarilo. razumelo ili izdržalo."
+ENG30-04690196-n,0.0,0.75,ružnoća,Kvalitet koji ne pruža zadovoljstvo čulima.
+ENG30-04670531-n,0.0,0.75,nepouzdanost,Osobina onoga što ne zaslužuje poverenje.
+ENG30-04664964-n,0.125,0.75,nebrižljivost,Kvalitet onog ko nije brižljiv.
+ENG30-01513050-a,0.0,0.875,"užasan,grozan",Intenzivno ili preterano loš ili neprijatan po kvalitetu ili stepenu.
+ENG30-02482425-v,0.0,0.625,"ubiti,ukloniti s ovog sveta",Usmrtiti namerno i sa predumišljajem.
+ENG30-00060063-v,0.125,0.75,"prekinuti,prekratiti","Završiti pre kraja, kao računarski proces, misiju itd."
+ENG30-00078401-v,0.0,0.75,patiti,Ne osecati se dobro ili udobno.
+ENG30-00424599-n,0.0,0.625,"okrutnost,nečovečno postupanje",Okrutan čin; namerno izazivanje bola ili patnje.
+ENG30-13968308-n,0.0,0.625,nezaposlenost,Stanje biti nezaposlen ili nemati posao.
+ENG30-00744131-n,0.0,0.75,šteta,svaka šteta proistekla iz povrede prava
+ENG30-00687181-v,0.0,0.625,odbaciti,odbaciti (dokument) kao nevažeci
+ENG30-02581276-v,0.0,0.625,podsticati na izvršenje krivičnog dela,podsticati nekog da počini zločin ili neko krivično delo
+ENG30-14563564-n,0.0,0.75,"mrak,tama,pokvarenost",odsustvo moralnih ili duhovnih vrednosti
+ENG30-07502241-n,0.0,0.625,neprijaznost,Odbojnost doživljena kao odsustvo druželjubivosti.
+ENG30-07524529-n,0.125,0.75,"briga,zabrinutost",Osećanje zabrinutosti.
+ENG30-13988663-n,0.0,0.625,nesreća,Stanje koje karakterišu osećanja u rasponu od blagog nezadovoljstva do dubokog bola.
+ENG30-02527651-v,0.0,0.75,"uprskati,upropastiti,zabrljati,zakrmačiti,zasvinjiti,zajebati,usrati,unerediti","Napraviti nered, uništiti."
+ENG30-12819953-n,0.0,0.625,"Hackelia,rod Hackelia,Lappula,rod Lappula",Čičkovac.
+BILI-00000306,0.0,0.75,nositi crninu,Oblačiti se u crno kao znak žalosti.
+ENG30-01257612-a,0.0,0.75,hladan,Prošireno značenje; posebno se odnosi na psihološku hladnoću; bez ljudske topline i emocija.
+ENG30-00095280-a,0.0,0.75,mrtav,Koji više nema životne funkcije (ili bar tako izgleda).
+ENG30-01131043-a,0.0,0.875,"zao,loš",Koji je moralno lož ili pogrešan.
+ENG30-00118238-a,0.0,0.75,"neživ,mrtav",U kome nema života.
+ENG30-01262611-a,0.0,0.75,"nečovečan,nehuman,neljudski",Onaj koji nema ili ne pokazuje sažaljenje ili saosećanje.
+ENG30-01190993-a,0.0,0.625,slab,"Koji nije vlik po količini, broju ili stepenu."
+ENG30-00927578-a,0.0,0.75,nepostojeći,Koji ne postoji u stvarnosti.
+ENG30-01564073-a,0.0,0.625,nepokretan,Koji s ne pokreće.
+ENG30-00065370-v,0.0,0.75,"bolovati od,imati",Patiti od nečega; bolovati od nečega.
+ENG30-01818234-a,0.0,0.875,negativan,"Koga karakeriše ili koji pokazuje odbijanje, poricanje ili suprotstavljanje; koji nema pozitivna svojstva."
+ENG30-00478015-a,0.0,0.625,neudoban,Koji dovodi (pričinjava) fizičku neudobnost.
+ENG30-00606602-a,0.0,0.75,nekonvencionalan,Koji se ne povinuje prihvaćenim pravilima i standardima.
+ENG30-01064286-a,0.0,0.75,neslobodan,Onemogućen i nije slobodan; ne mpože da deluje po sopstvenoj volji.
+ENG30-01774136-v,0.0,0.75,"mrzeti,ne podnositi",Osećati snažnu antipatiju i odbojnost prema nekome.
+ENG30-01161161-n,0.0,0.625,"telesna kazna,fizičko kažnjavanje",nanošenje telesnih povreda licu koje je osuđeno za izvršen zločin
+ENG30-01396047-a,0.0,0.625,nezakonit,protivno zakonu ili zakonom zabranjeno
+ENG30-02449952-a,0.0,0.75,otrovni,Koji je otrovan ili proizvodi otrov.
+ENG30-14189204-n,0.0,0.625,"bolest krvi,krvna bolest",Bolest krvi ili narušavanje funkcionisanja krvnih ćelija.
+ENG30-00985909-a,0.0,0.625,"neprobirljiv,neosetljiv","koji ne traži, ne iziskuje specijalne nutricione potrebe"
+ENG30-00969103-a,0.0,0.625,gotski,"koji je okarakterisan mračnim, mističnim i groteskom"
+ENG30-14171682-n,0.222,0.778,zapalenje,bolest koju karakteriše neki zapaljenski proces
+ENG30-05006285-n,0.0,0.625,beživotnost,svojstvo onoga kome nedostaje živost
+ENG30-01595596-a,0.0,0.75,"nenormalan,anormalan","Koji nije normalan, tipičan, uobičajen, regularan ili nije u saglasnosti sa normom."
+ENG30-02566015-a,0.0,0.75,"neraspoložen,nevoljan",Koji nije naklonjen prea nečemu.
+ENG30-02463582-a,0.0,0.625,"ciničan,mizantropski,mizantropičan","koji misli najgore o ljudskoj prirodi i motivima; koji ima podrugljivu nevericu u, npr. u nesebičnost drugih"
+ENG30-01244410-a,0.0,0.625,neprijateljski,okarakterisan neprijateljstvom ili zlovoljom
+ENG30-01077829-a,0.0,0.625,neprijateljski,koji ne pripada snagama sopstvene zemlje ili snagama saveznika
+ENG30-00115494-a,0.0,0.75,"ogorčen,razdražen,pobesneo,uvredžen",razgnevxlen nečim nepravednim ili pogrešnim
+ENG30-01805889-a,0.125,0.75,nezadovoljan,koji nije zadovoljan; koji doživljava ili ispoljava nezadovoljstvo
+ENG30-00225564-a,0.0,0.875,"pakostan,zlonameran",Koji drugima želi zlo; koji nastaje iz velike zlobe ili mržnje.
+ENG30-00116529-a,0.0,0.875,ozlojeđen,pun ili označen ozlojeđenošću ili zlovoljom
+ENG30-00620585-a,0.0,0.625,nekooperativan,koji nije raspoložen da sarađuje
+ENG30-14213199-n,0.0,0.625,"muka,fizička patnja",stanje bola ili patnje zbog lošeg zdravlja
+ENG30-01808769-v,0.0,0.75,"odbijati,odbiti",biti odbojan; izazivati averziju
+ENG30-05144079-n,0.0,0.875,nevaljalost,ono što je ispod standarda i očekivanja u pogledu morala ili pristojnosti
+ENG30-00865620-a,0.0,0.75,"zaveden,osvojen,šarmiran,zanesen,zaluđen",ispunjen divljenjem i ushićenjem
+ENG30-01587787-a,0.125,0.75,loš,okarakterisan zlobom
+ENG30-01625063-a,0.0,0.75,"mrzak,bestidan,oduran",veoma odbojan
+ENG30-00758972-n,0.125,0.75,"gnev,jarost",ratobornost izazvana stvarnom ili pretpostavljenom nepravdom (predstavljena kao jedan od smrtnih grehova)
+ENG30-07532276-n,0.0,0.875,naslađivanje,zlonamerno zadovoljstvo
+ENG30-02359464-a,0.0,0.625,iznenađujući,"koji izaziva iznenađenje, čuđenje ili zadivljenost"
+ENG30-02114924-v,0.0,0.875,desenzitivisati,učiniti da neko ili nešto ne bude osetljiv ili osetljivo
+ENG30-07520507-n,0.0,0.75,histerija,preteran ili nekontrolisan strah
+ENG30-07523760-n,0.0,0.625,zaplašenost,osećanje zaplašenosti
+ENG30-01158020-a,0.125,0.875,"okoreo,bezdušan",koji nema osećanja sažaljenja i topline
+ENG30-01780202-v,0.0,0.625,"strahovati,bojati se","biti uplašen, plašiti se"
+ENG30-01780434-v,0.0,0.625,strepeti,biti zabrinut i prestrašen zbog nečega
+ENG30-01127147-a,0.0,0.875,"zastrašujući,strahovit",izuzetno nelagodan
+ENG30-00822907-a,0.0,0.75,teskoban,mentalno uznemiren zbog moguće nesreće ili opasnosti; zabrinut
+ENG30-00078851-a,0.0,0.625,uzbunjen,koji oseća nadolazeću opasnost
+ENG30-07506149-n,0.0,0.625,"bezdušnost,hladnokrvnost",nedostatak brige za dobrobit drugih
+ENG30-00194924-a,0.0,0.75,"jezivo,grozno",tako strašno da izaziva grozu i jezu
+ENG30-00193480-a,0.0,0.625,užasavajući,koji izaziva osećanje užasa
+ENG30-01126291-a,0.0,0.875,"rđav,svirep,neopisiv",izuzetno loš ili nezadovoljavajući
+ENG30-00193799-a,0.0,0.625,"strašan,strahovit,užasan,užasavajući",koji izaziva strah ili užas
+ENG30-01626562-a,0.0,0.875,"odvratan,gnusan",izuzetno uvredljiv za moral; koji izaziva užas
+ENG30-01805064-a,0.0,0.75,neprijatan,"koji izaziva neprijatnost; na primer, neprijatna istina"
+ENG30-01361863-a,0.125,0.75,tužan,koji oseća ili ispoljava žalost i tugu
+ENG30-00909363-a,0.125,0.875,disforičan,uopštenih osećanja tuge
+ENG30-01368192-a,0.125,0.75,neveseo,koji nije veseo niti izaziva veselje
+ENG30-01362684-a,0.0,0.75,melanholičan,koji je tužan ili izaziva tugu
+ENG30-07539367-n,0.0,0.75,disforija,nenormalna depresija i nezadovoljstvo
+ENG30-07535532-n,0.0,0.875,muka,(poetski) muka
+ENG30-07532832-n,0.0,0.875,setnost,tuga izazvana bolom i tugom
+ENG30-07535209-n,0.0,0.75,"rastuženost,ojađenost",stanje sumorne žalosti
+ENG30-07535430-n,0.0,0.625,tuxznost,ispoljavanje rastuženosti
+ENG30-07533978-n,0.125,0.75,beda,osećanje intezivne nesreće
+ENG30-07537068-n,0.125,0.75,neveselost,osećanje uporne tuge
+ENG30-00726317-a,0.0,0.75,bespomoćan,koji je nesposoban da se sam snađe
+ENG30-01230616-a,0.0,0.875,"bespomoćan,izgubljen",nesposoban da deluje: bez pomoći
+ENG30-07533097-n,0.125,0.75,melanholija,osećanje misaone tuge
+ENG30-01365544-a,0.0,0.75,"skrhan,srceparajući",koji ispoljava ili je označen tugom i bolom
+ENG30-07534278-n,0.0,0.75,uplakanost,tuga izražena plakanjem
+ENG30-07533492-n,0.125,0.75,ojađenost,osećanje velike utučenosti i melanholije
+ENG30-02347086-a,0.0,0.875,"bedan,kukavan,oplačljiv",veoma lošeg kvaliteta ili u veoma lošem stanju
+ENG30-01364008-a,0.0,0.75,žalostan,"koji oseća ili ispoljava žalost, naročito zbog nepovratnog gubitka"
+ENG30-01150475-a,0.0,0.625,?ispunjen žaljenjem,"žalovati, tugovati, ili osećati gubitak zbog nečega što je učinjeno ili nije učinjeno"
+ENG30-01230153-a,0.0,0.75,potišten,bez nade ili skoro bez nade
+ENG30-01743217-a,0.0,0.75,pokajan,koji oseća ili ispoljava kajanje zbog nedela
+ENG30-07534108-n,0.0,0.625,"napuštenost,usamljenost",tuga onoga koga je neko napustio ili ostavio
+ENG30-01743506-a,0.0,0.75,pokajnički,koji oseća ili ispoljava bol ili žalost zbog greha ili uvreda
+ENG30-07536245-n,0.0,0.875,"krivica,osećanje krivice",griža savesti kada se neko oseća krivim za prekršaj
+ENG30-00704270-a,0.0,0.625,"smrknut,natmuren",koji odražava sumornost i smrknutost
+ENG30-00364881-a,0.0,0.625,"deprimirajući,tmuran,sumoran",koji izaziva potištenost
+ENG30-01050890-a,0.125,0.875,"jadan,bedan,patetičan",koji zaslužuje sažaljenje ili podstiče na sažaljenje
+ENG30-01366525-a,0.125,0.875,paćenički,pod uticajem patnje i tuge ili ispunjen ovim osećanjima
+ENG30-01150205-a,0.0,0.875,mizeran,veoma nesrećan; ispunjen mizerijom
+ENG30-01362387-a,0.0,0.75,žaloban,koji je tužan ili priziva tugu
+ENG30-00703615-a,0.0,0.875,"snužden,depresivan,slomljen,klonuo duhom",koji je klonuo duhom
+ENG30-01366157-a,0.0,0.75,ožalošćen,koji ispoljava žalost
+ENG30-01364817-a,0.0,0.625,"ucveljen,ojađen",žalostan zbog gubitka ili uskraćenosti
+ENG30-00725772-a,0.0,0.75,zavisan,Koji nije nezavisan.
+ENG30-01534147-v,0.0,0.75,"uprljati,isprljati,ubrljati,ukaljati","Zaprljati, onečistiti."
+ENG30-04658106-n,0.125,0.75,"odbojnost,neprijateljstvo","odbojno, vrlo neprijateljsko ponašanje"
+ENG30-07501545-n,0.0,0.625,nedopadanje,Osećanje averzije ili antipatije.
+ENG30-04657876-n,0.0,0.875,nedruželjubivost,neprijateljski stav
+ENG30-04711256-n,0.125,0.75,suptilnost,Kvalitet onoga što je teško otkriti ili analizirati.
+ENG30-00781644-a,0.125,0.75,mutan,"neraspoznatljiv, nejasnih obrisa"
+ENG30-04752221-n,0.0,0.625,nejednakost,kada nema jednakosti
+ENG30-02340878-a,0.0,0.625,niskorazinski,na nižem nivou po rangu ili značaju
+ENG30-00735336-a,0.0,0.875,"izgoreo,sagoreo",uništen ili veoma oštećen vatrom
+ENG30-05042871-n,0.0,0.875,ranjivost,osetljivost na povrede ili napada
+ENG30-01986349-a,0.0,0.75,"ograničen,uskogrud",osoba koja ne prihvata nove ideje
