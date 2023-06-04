@@ -363,23 +363,21 @@ class PolaritySets():
     """
     def __init__(self, wordnet_corpus_reader:SrbWordNetReader, k = 0 ):
         """
-        Initite sets of synstes marked by sentiment from wordent.
+        Initializes the PolaritySets object with empty sets of synsets for each sentiment category 
+        (positive, negative, and objective), based on the provided wordnet corpus reader.
 
-        Setiment is divided in objective, positive and negative.
-        Positive and negative set expand in each iterration by relations
-        between synstes.
+        The positive and negative synset sets are expanded in each iteration based on the relations 
+        between the synsets within the WordNet structure.
 
         Parameters
         ----------
         wordnet_corpus_reader : SrbWordNetReader
-            DESCRIPTION.
+            An instance of the Serbian WordNet Corpus Reader class. It provides the structure and 
+            relations of the synsets for the Serbian language WordNet.
+
         k : Integer, optional
-            NUmber of itteration. The default is 0.
-
-        Returns
-        -------
-        None.
-
+            The number of expansion iterations to perform upon initialization. Default is 0, meaning 
+            no expansion is performed at the start.
         """
         self._wordnet_corpus_reader = wordnet_corpus_reader
         self._pos = set()
@@ -389,58 +387,125 @@ class PolaritySets():
 
     def addPOS(self, word):
         """
-        Add sysnsted that contain lemma to posietive set.
+        Adds synsets containing the given literal to the positive sentiment set.
 
         Parameters
         ----------
         word : String
-            Lemma
+            The literal word to be used to find and add related synsets to the positive sentiment set.
 
         Returns
         -------
-        None.
-
+        None. The function operates in-place and modifies the object's state.
         """
+
         syns = self._wordnet_corpus_reader.synsets(word)
         for syn in syns:
             self.addPOSID(syn._ID)            
     def addPOSIDall(self, IDs):
         """
-        Add all synsets which ids are in iterate.
+        Adds all synsets, whose IDs are contained within the provided iterable, to the positive sentiment set.
 
         Parameters
         ----------
-        IDs : List
-            List of IDs
+        IDs : Iterable
+            An iterable object (such as list or set) containing the IDs of synsets to be added to the positive sentiment set.
 
         Returns
         -------
-        None.
+        None. The function operates in-place and modifies the object's state.
 
         """
         for ID in IDs:
             self.addPOSID(ID)
 
     def addPOSID(self, ID):
+        """
+        Adds the synset with the given ID to the positive sentiment set, provided the synset has a Serbian definition.
+
+        Parameters
+        ----------
+        ID : String
+            The ID of the synset to be added to the positive sentiment set.
+
+        Returns
+        -------
+        None. The function operates in-place and modifies the object's state.
+        """        
         syn = self._wordnet_corpus_reader.synset_from_ID(ID)
         if syn.is_definition_in_serbain():
             self._pos.add(syn)
             self._obj.discard(syn)
 
     def addPOSall(self, words):
+        """
+        Adds all synsets related to the given words to the positive sentiment set.
+
+        This function iterates through each word in the provided iterable and adds 
+        the related synsets to the positive sentiment set by calling the addPOS method.
+
+        Parameters
+        ----------
+        words : Iterable
+            An iterable object (such as list or set) containing words. 
+            The synsets related to these words are to be added to the positive sentiment set.
+
+        Returns
+        -------
+        None. The function operates in-place and modifies the object's state.
+        """
         for word in words:
             self.addPOS(word)
 
     def addNEG(self, word):
+        """
+        Adds synsets that contain the specified literal to the negative sentiment set.
+
+        Parameters
+        ----------
+        word : str
+            The literal string whose corresponding synsets are to be added to the negative sentiment set.
+
+        Returns
+        -------
+        None. The function operates in-place and modifies the object's state.
+        """
+
         syns = self._wordnet_corpus_reader.synsets(word)
         for syn in syns:
             self.addNEGID(syn._ID)  
 
     def addNEGall(self, words):
+        """
+        Adds all synsets related to the given words to the negative sentiment set.
+
+        Parameters
+        ----------
+        words : Iterable
+            An iterable object (such as list or set) containing words. 
+            The synsets related to these words are to be added to the negative sentiment set.
+
+        Returns
+        -------
+        None. The function operates in-place and modifies the object's state.
+        """
         for word in words:
             self.addNEG(word)
 
     def addNEGID(self, ID):
+        """
+        Adds the synset with the specified ID to the negative sentiment set, 
+        provided the definition of the synset is in Serbian.
+
+        Parameters
+        ----------
+        ID : str
+            The ID of the synset to be added to the negative sentiment set.
+
+        Returns
+        -------
+        None. The function operates in-place and modifies the object's state.
+        """
         syn = self._wordnet_corpus_reader.synset_from_ID(ID)
         if syn.is_definition_in_serbain():
             self._neg.add(syn)
@@ -448,9 +513,36 @@ class PolaritySets():
             
             
     def addNEGIDall(self, IDs):
+        """
+        Adds all synsets with IDs contained in the given iterable to the negative sentiment set.
+
+        Parameters
+        ----------
+        IDs : Iterable
+            An iterable object (such as list or set) containing the IDs of synsets 
+            to be added to the negative sentiment set.
+
+        Returns
+        -------
+        None. The function operates in-place and modifies the object's state.
+        """
         for ID in IDs:
             self.addNEGID(ID)
     def addOBJSYN(self, syns):
+        """
+        Adds synsets to the objective sentiment set if they exist and are defined in Serbian.
+        They also should not be present in the positive or negative sentiment sets.
+
+        Parameters
+        ----------
+        syns : Iterable
+            An iterable of synsets (such as a list or a set).
+
+        Returns
+        -------
+        None. This function operates in-place and modifies the object's state.
+        """
+        
         for syn in syns:
             if syn is not None:
                 if syn.is_definition_in_serbain():
@@ -458,6 +550,20 @@ class PolaritySets():
                         self._obj.add(syn)
 
     def addPOSSYN(self, syns):
+        """
+        Adds synsets to the objective sentiment set if they exist and are defined in Serbian.
+        They also should not be present in the positive or negative sentiment sets.
+
+        Parameters
+        ----------
+        syns : Iterable
+            An iterable of synsets (such as a list or a set).
+
+        Returns
+        -------
+        None. This function operates in-place and modifies the object's state.
+        """
+
         for syn in syns:
             if syn is not None:
                 if syn.is_definition_in_serbain():
@@ -465,6 +571,20 @@ class PolaritySets():
                     self._obj.discard(syn)
 
     def addNEGSYN(self, syns):
+        """
+        Adds synsets to the objective sentiment set if they exist and are defined in Serbian.
+        They also should not be present in the positive or negative sentiment sets.
+
+        Parameters
+        ----------
+        syns : Iterable
+            An iterable of synsets (such as a list or a set).
+
+        Returns
+        -------
+        None. This function operates in-place and modifies the object's state.
+        """
+
         for syn in syns:
             if syn is not None:
                 if syn.is_definition_in_serbain():
@@ -496,7 +616,19 @@ class PolaritySets():
         self.addNEGSYN(getNegativeIDfromWNop(self._wordnet_corpus_reader))
     def removeSyn (self, syn, polarity = "OBJ"):
         """
-        Remove synset from stated polarity set. Default objective
+        Removes a synset from the specified sentiment set. By default, it removes from the objective sentiment set.
+
+        Parameters
+        ----------
+        syn : Synset
+            The synset to be removed.
+
+        polarity : str, optional
+            The sentiment set from which to remove the synset. Must be one of ["OBJ", "NEG", "POS"]. Default is "OBJ".
+
+        Returns
+        -------
+        None. This function operates in-place and modifies the object's state.
         """
         if (polarity == "OBJ"):
            self._obj.discard(syn)
@@ -506,18 +638,62 @@ class PolaritySets():
            self._pos.discard(syn)
     def removeSynID (self, ID, polarity = "OBJ"):
         """
-        Remove synset by ID from stated polarity set. Default objective
+        Removes a synset from the specified sentiment set by its ID. By default, it removes from the objective sentiment set.
+
+        Parameters
+        ----------
+        ID : str
+            The ID of the synset to be removed.
+
+        polarity : str, optional
+            The sentiment set from which to remove the synset. Must be one of ["OBJ", "NEG", "POS"]. Default is "OBJ".
+
+        Returns
+        -------
+        None. This function operates in-place and modifies the object's state.
         """
         syn = self._wordnet_corpus_reader.synset_from_ID(ID)
         self.removeSyn (syn, polarity)
     def removeSynIDs (self, IDs, polarity = "OBJ"): 
         """
-        Remove synsets by iterative ID from stated polarity set. Default objective
-        """ 
+        Removes multiple synsets from the specified sentiment set by their IDs. By default, it removes from the objective sentiment set.
+
+        Parameters
+        ----------
+        IDs : Iterable
+            An iterable of synset IDs to be removed (such as a list or a set).
+
+        polarity : str, optional
+            The sentiment set from which to remove the synsets. Must be one of ["OBJ", "NEG", "POS"]. Default is "OBJ".
+
+        Returns
+        -------
+        None. This function operates in-place and modifies the object's state.
+        """
         for ID in IDs:
             self.removeSynID(ID, polarity)
         
     def next_itteration (self):
+        """
+        Produces the next iteration of the polarity sets. 
+        
+        This method copies the current sets of positive, negative, and objective synsets 
+        to a new PolaritySets object, then expands the polarity sets of the new object, 
+        updates its internal dataframe, and returns the new object. This method leaves 
+        the original object unchanged.
+        
+        The iteration count (k) of the new object will be one greater than the iteration count 
+        of the original object.
+        
+        Parameters
+        ----------
+        None.
+        
+        Returns
+        -------
+        PolaritySets
+            The newly generated PolaritySets object with expanded polarity sets and updated internal dataframe.
+        """
         ret = PolaritySets(self._wordnet_corpus_reader, self._k +1)
         ret._pos = self._pos.copy()
         ret._neg = self._neg.copy()
@@ -527,6 +703,16 @@ class PolaritySets():
         return ret
 
     def _expandPolarty(self):
+        """
+        Expand the positive and negative polarity sets based on defined relationships in WordNet.
+
+        We are using certain relationships from WordNet for the expansion:
+
+        - Antonyms: The antonyms of positive synsets are added to the negative set and vice versa.
+        - Other relationships ("+", "=", "^"): The synsets related to positive or negative synsets through these relationships are added to the respective set.
+
+        The expansion is performed iteratively and updates the existing positive and negative sets.
+        """
         rel= {"+","=","^"}
         neg = self._neg.copy()
         pos = self._pos.copy()
@@ -559,6 +745,19 @@ class PolaritySets():
         self._pos =pos
 
     def _getText(self, pol):
+        """
+        Generate a list of dictionaries containing information about synsets belonging to a particular polarity.
+    
+        Parameters
+        ----------
+        pol : string ("POS", "NEG", "OBJ")
+            The polarity to retrieve synsets for.
+    
+        Returns
+        -------
+        ret : list of dicts
+            Each dictionary represents a synset and includes the synset's ID, sentiment, lemma names, definition, and POS tag.
+        """
         ret = list()
         if (pol == "POS"):
             syns = self._pos
@@ -576,6 +775,15 @@ class PolaritySets():
             ret.append(el)
         return ret
     def getDef(self):
+        """
+        Create a dictionary containing lists of synsets for each polarity, as well as the current iteration number.
+    
+        Returns
+        -------
+        ret : dict
+            The returned dictionary has keys for "POS", "NEG", "OBJ", and "iteration". 
+            The values for each polarity are lists of synsets, while the value for "iteration" is an integer.
+        """
         ret = dict()
         for t in POLARITY:
             ret[t] = self._getText(t)
@@ -583,16 +791,23 @@ class PolaritySets():
         return ret
 
     def updateDataFrame(self):
-        """Update internal dataframe.
-
-        Do it after finishing enting systes manuely.
-        It automaticly done after expansion by polarity
-
+        """
+        Updates the internal dataframe based on the current status of positive (_pos), negative (_neg), 
+        and objective (_obj) synset collections.
+        
+        This function should be called after all manual entries of synsets are completed. 
+        However, it is automatically invoked after the expansion by polarity process.
+        
+        The internal dataframe is restructured with the columns: 'POS', 'NEG', 'OBJ', and 'Sysnet'. 
+        Each row corresponds to a synset and its associated polarity labels (binary encoded), 
+        where '1' indicates the synset belongs to the respective polarity (Positive, Negative, or Objective) 
+        and '0' indicates it does not.
+        
         Returns
         -------
-        None.
-
+        None. The function operates in-place and does not return any value.
         """
+
         dfpos = pd.DataFrame(self._pos, columns=["Sysnet"])
         dfpos.insert(0, "POS", 1)
         dfpos.insert(0, "NEG", 0)
@@ -607,28 +822,37 @@ class PolaritySets():
         dfobj.insert(0, "OBJ", 1)
         self._df = pd.concat([dfpos, dfneg, dfobj])
 
-    def getXY(self, polatiry="POS", predprocess=None):
-        """
-        Return X, y for machine learning.
 
+
+    def getXY(self, polarity="POS", preprocess=[syn2gloss]):
+        """
+        Generates input features (X) and target labels (y) for machine learning models.
+        The function operates on a DataFrame containing synsets and their respective polarities.
+    
         Parameters
         ----------
-        polatiry : [""POS", "NEG], optional
-            By which polarity we order y The default is "POS".
-
+        polarity : str, optional
+            The sentiment polarity used to classify the target labels (y).
+            Accepts either "POS" (positive) or "NEG" (negative). The default is "POS".
+            
+        preprocess : list of functions, optional
+            A sequence of preprocessing functions to apply on each element of the synset data (X).
+            By default, this list includes the `syn2gloss` function, which converts synsets to glosses.
+    
         Returns
         -------
-        X : Series of SrbSynset
-            Data
-        y : Series of [0,1]
-            Clalsses. 0 is zx not selected poarity, 1 if it is
-
+        X : pandas Series
+            The input features for a machine learning model, each element being a Serbian Synset.
+            
+        y : pandas Series
+            The target labels for a machine learning model. This represents a binary classification where 0 denotes
+            that the synset does not correspond to the selected polarity, while 1 indicates it does.
         """
         X = self._df["Sysnet"]
-        y = self._df[polatiry]
-        if predprocess is not None:
-            for f in predprocess:
+        y = self._df[polarity]
+        
+        if preprocess is not None:
+            for f in preprocess:
                 X= X.apply(f)
         
         return X, y
-
