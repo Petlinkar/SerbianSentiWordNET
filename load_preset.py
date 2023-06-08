@@ -164,3 +164,4 @@ def load_preset_Serbian_pol_set(wordnet):
     # print("POS, NEG and OBJ from WN-OP")
     Synset_Sentiment_set.updateDataFrame()
     return Synset_Sentiment_set
+    

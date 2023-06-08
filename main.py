@@ -250,9 +250,18 @@ for i, pol_sets in enumerate(Synset_Sentiment_sets):
         X_train.to_csv(TRAIN_DIR+"X_train_" + name)
         y_train.to_csv(TRAIN_DIR+"y_train_" + name)
         X_test.to_csv(TRAIN_DIR+"X_test_" + name)
-        y.to_csv(TRAIN_DIR+"y_test_" + name)
+        y_test.to_csv(TRAIN_DIR+"y_test_" + name)
 
-
+for i, pol_sets in enumerate(Synset_Sentiment_sets):
+    for polarity in ["POS", "NEG"]:
+        name = "UP"+ polarity + str(i) + ".csv"
+        X, y = pol_sets.getXY(polarity)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y,
+                                                            random_state=13)
+        X_train.to_csv(TRAIN_DIR+"X_train_" + name)
+        y_train.to_csv(TRAIN_DIR+"y_train_" + name)
+        X_test.to_csv(TRAIN_DIR+"X_test_" + name)
+        y_test.to_csv(TRAIN_DIR+"y_test_" + name)
 
         
 # for i, s in enumerate(Synset_Sentiment_sets):
