@@ -37,7 +37,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import AdaBoostClassifier
 import pandas as pd
 from joblib import dump
-
+from sklearn.model_selection import train_test_split
 
 C_range = np.logspace(4, 13, 4)
 gamma_range = np.logspace(-9, -5, 5)
@@ -243,12 +243,18 @@ model = "SDG-klas-"
 TRAIN_DIR = ".//train_sets//"
 for i, pol_sets in enumerate(Synset_Sentiment_sets):
     for polarity in ["POS", "NEG"]:
-        name = "UP"+ polarity + str(i) + ".csv"
-        # X, y = pol_sets.getXY(polarity, predprocess=pretprocess)
+        name = "LM"+ polarity + str(i) + ".csv"
+        X, y = pol_sets.getXY(polarity, preprocess=pretprocess)
         X, y = pol_sets.getXY(polarity)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y,
+                                                            random_state=13)
+        X_train.to_csv(TRAIN_DIR+"X_train_" + name)
+        y_train.to_csv(TRAIN_DIR+"y_train_" + name)
+        X_test.to_csv(TRAIN_DIR+"X_test_" + name)
+        y.to_csv(TRAIN_DIR+"y_test_" + name)
 
-        X.to_csv(TRAIN_DIR+"X_" + name)
-        y.to_csv(TRAIN_DIR+"y_" + name)
+
+
         
 # for i, s in enumerate(Synset_Sentiment_sets):
 #     if (i % 2) != 0:
