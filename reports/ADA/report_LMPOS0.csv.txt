@@ -1,11 +1,11 @@
-[[4917    7]
- [  32    5]]
+[[4908   12]
+ [  29    8]]
 
               precision    recall  f1-score   support
 
-         OBJ       0.99      1.00      1.00      4924
-         POS       0.42      0.14      0.20        37
+         OBJ       0.99      1.00      1.00      4920
+         POS       0.40      0.22      0.28        37
 
-    accuracy                           0.99      4961
-   macro avg       0.71      0.57      0.60      4961
-weighted avg       0.99      0.99      0.99      4961
+    accuracy                           0.99      4957
+   macro avg       0.70      0.61      0.64      4957
+weighted avg       0.99      0.99      0.99      4957
