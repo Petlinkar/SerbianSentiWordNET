@@ -11,9 +11,13 @@ import numpy as np
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
-
 from tensorflow.keras import layers, Sequential
 from tensorflow import keras
+import time
+
+# Record the start time
+start_time = time.time()
+
 
 def polarity_correction(pos, neg):
     """
@@ -130,7 +134,8 @@ if not os.path.exists(REP_DIR):
     os.makedirs(REP_DIR)
 
 # Define constants
-i = 0
+i = 0   #This is iteration, for sake of control I have not placed this in loop
+
 polarity = "POS"
 BUFFER_SIZE = 1000
 BATCH_SIZE = 128
@@ -148,7 +153,8 @@ X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
 y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
 
 # Split dataset into training and validation
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, stratify=y)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, 
+                                                  stratify=y)
 
 # Convert pandas dataframes to tensorflow tensors
 X_train = tf.convert_to_tensor(X_train, name="Definicija")
@@ -165,8 +171,10 @@ train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
 validation_dataset = tf.data.Dataset.from_tensor_slices((X_val, y_val))
 
 # Shuffle, batch, and prefetch data for performance
-train_dataset = train_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
-validation_dataset = validation_dataset.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+train_dataset = train_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE).prefetch(
+    tf.data.AUTOTUNE)
+validation_dataset = validation_dataset.batch(BATCH_SIZE).prefetch(
+    tf.data.AUTOTUNE)
 
 # Define encoder for text vectorization
 encoder = tf.keras.layers.TextVectorization(standardize=None,
@@ -201,7 +209,8 @@ outputs = layers.Dense(1, activation='sigmoid')(x)  # Output layer with sigmoid 
 model_POS = keras.Model(inputs=inputs, outputs=outputs)  # Define the model
 
 model_POS.compile(
-    optimizer="adam", loss=tf.keras.losses.BinaryCrossentropy(from_logits=False), metrics=["binary_accuracy"]
+    optimizer="adam", loss=tf.keras.losses.BinaryCrossentropy(
+        from_logits=False), metrics=["binary_accuracy"]
 )
 history = model_POS.fit(train_dataset, epochs=5,
                     validation_data=validation_dataset,
@@ -220,7 +229,8 @@ print('Confusion Matrix:\n', conf_matrix)
 # Calculate the classification report
 class_report = classification_report(y_test, y_pred_binary)
 print('Classification Report:\n', class_report)
-with open(REP_DIR + "report_" + name + ".txt", "w") as f:
+# Writing report
+with open(os.path.join(REP_DIR, f"report_{name}.txt"), "w") as f:
     f.write(str(conf_matrix))
     f.write("\n\n")
     f.write(class_report)
@@ -231,13 +241,14 @@ with open(REP_DIR + "report_" + name + ".txt", "w") as f:
 predicted_y = y_pred_binary
 X_test_str = [seq.decode('utf-8') for seq in X_test.numpy()]
 # Create a data frame
-table = pd.DataFrame({"X": X_test_str, "Predicted": predicted_y.flatten(), "Real": y_test.numpy().flatten()})
+table = pd.DataFrame({"X": X_test_str, "Predicted": predicted_y.flatten(), 
+                      "Real": y_test.numpy().flatten()})
 
 # Create a table of misclassified X values.
 misclassified_X = table[table["Predicted"] != table["Real"]]
 
-# Save the table to a file.
-misclassified_X.to_csv(REP_DIR + "table_" + name, index=False)
+# Save the table to a file
+misclassified_X.to_csv(os.path.join(REP_DIR, f"table_{name}.csv"), index=False)
 
 
 polarity = "NEG"
@@ -252,7 +263,8 @@ X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
 y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
 
 # Split dataset into training and validation
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, stratify=y)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, 
+                                                  stratify=y)
 
 # Convert pandas dataframes to tensorflow tensors
 X_train = tf.convert_to_tensor(X_train, name="Definicija")
@@ -269,8 +281,10 @@ train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
 validation_dataset = tf.data.Dataset.from_tensor_slices((X_val, y_val))
 
 # Shuffle, batch, and prefetch data for performance
-train_dataset = train_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
-validation_dataset = validation_dataset.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+train_dataset = train_dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE).prefetch(
+    tf.data.AUTOTUNE)
+validation_dataset = validation_dataset.batch(BATCH_SIZE).prefetch(
+    tf.data.AUTOTUNE)
 
 # Define encoder for text vectorization
 encoder = tf.keras.layers.TextVectorization(standardize=None,
@@ -305,7 +319,8 @@ outputs = layers.Dense(1, activation='sigmoid')(x)  # Output layer with sigmoid 
 model_NEG = keras.Model(inputs=inputs, outputs=outputs)  # Define the model
 
 model_NEG.compile(
-    optimizer="adam", loss=tf.keras.losses.BinaryCrossentropy(from_logits=False), metrics=["binary_accuracy"]
+    optimizer="adam", loss=tf.keras.losses.BinaryCrossentropy(
+        from_logits=False), metrics=["binary_accuracy"]
 )
 history = model_NEG.fit(train_dataset, epochs=5,
                     validation_data=validation_dataset,
@@ -324,7 +339,8 @@ print('Confusion Matrix:\n', conf_matrix)
 # Calculate the classification report
 class_report = classification_report(y_test, y_pred_binary)
 print('Classification Report:\n', class_report)
-with open(REP_DIR + "report_" + name + ".txt", "w") as f:
+# Writing report
+with open(os.path.join(REP_DIR, f"report_{name}.txt"), "w") as f:
     f.write(str(conf_matrix))
     f.write("\n\n")
     f.write(class_report)
@@ -335,10 +351,49 @@ with open(REP_DIR + "report_" + name + ".txt", "w") as f:
 predicted_y = y_pred_binary
 X_test_str = [seq.decode('utf-8') for seq in X_test.numpy()]
 # Create a data frame
-table = pd.DataFrame({"X": X_test_str, "Predicted": predicted_y.flatten(), "Real": y_test.numpy().flatten()})
+table = pd.DataFrame({"X": X_test_str, "Predicted": predicted_y.flatten(), 
+                      "Real": y_test.numpy().flatten()})
 
 # Create a table of misclassified X values.
 misclassified_X = table[table["Predicted"] != table["Real"]]
 
-# Save the table to a file.
-misclassified_X.to_csv(REP_DIR + "table_" + name, index=False)
+# Save the table to a file
+misclassified_X.to_csv(os.path.join(REP_DIR, f"table_{name}.csv"), index=False)
+
+# Read the definitions from a CSV file
+sword = pd.read_csv(os.path.join(RES_DIR, "definicije_lematizone.csv"),
+                    index_col=0)
+definicije = sword["Definicija"]
+
+# Convert the definitions to a tensor
+tensor_def = tf.convert_to_tensor(definicije.to_numpy(dtype='str'))
+
+# Predict with the positive and negative sentiment models
+tn_POS = model_POS.predict(tensor_def)
+tn_NEG = model_NEG.predict(tensor_def)
+
+# Correct the predicted polarities
+tn_POSc, tn_NEGc = polarity_correction(tn_POS, tn_NEG)
+
+# Add the corrected predictions to the DataFrame
+sword["POS"] = tn_POSc.numpy()
+sword["NEG"] = tn_NEGc.numpy()
+
+# Save the DataFrame to a new CSV file
+sword.to_csv(os.path.join(RES_DIR, f"sentiment_transformer_{i}.csv"))
+
+# Record the end time
+end_time = time.time()
+
+# Calculate total time taken in seconds
+total_time = end_time - start_time
+
+# Convert total time to hours, minutes, and seconds
+hours, rem = divmod(total_time, 3600)
+minutes, seconds = divmod(rem, 60)
+
+# Save the timing result in a text file
+with open(os.path.join(REP_DIR, f'execution_time_{i}.txt'), 'w') as f:
+    f.write("Execution Time: {:0>2}:{:0>2}:{:05.2f}".format(int(hours), 
+                                                            int(minutes), 
+                                                            seconds))
