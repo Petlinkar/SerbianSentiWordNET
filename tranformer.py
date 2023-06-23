@@ -134,7 +134,7 @@ if not os.path.exists(REP_DIR):
     os.makedirs(REP_DIR)
 
 # Define constants
-i = 0   #This is iteration, for sake of control I have not placed this in loop
+i = 6   #This is iteration, for sake of control I have not placed this in loop
 
 polarity = "POS"
 BUFFER_SIZE = 1000
