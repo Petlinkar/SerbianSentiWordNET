@@ -51,6 +51,7 @@ def train_model (i, polarity):
    
     # Renaming is necessary to avoid errors in subsequent operations
     X.rename("text", inplace=True)
+    X = X.fillna("")
     y.rename("labels", inplace=True)
     
     # Split the dataset into training and validation subsets
@@ -142,7 +143,7 @@ def test_model(i, polarity):
     # Load the test data
     X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
     y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
-        
+    X_test = X_test.fillna("")        
     # Construct model name
     model_name = f"Tanor/BERTicovoSENT{polarity}{i}"
     
@@ -161,7 +162,7 @@ def test_model(i, polarity):
     df = pd.DataFrame(data)
     
     # Convert the 'label' column into a series where 'NON-POSITIVE' is 0 and 'POSITIVE' is 1
-    df['label'] = df['label'].map({'NON-POSITIVE': 0, 'POSITIVE': 1})
+    df['label'] = df['label'].map(label2id)
     
     # Convert 'label' column into a series
     series = df['label']

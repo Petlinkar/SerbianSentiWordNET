@@ -14,7 +14,7 @@ import time
 from datasets import Dataset
 from transformers import DataCollatorWithPadding  
 import evaluate
-from transformers import  TrainingArguments, Trainer
+from transformers import  TrainingArguments, Trainer, pipeline
 from tqdm import tqdm
 import torch
 from huggingface_hub import create_repo
@@ -85,6 +85,7 @@ y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
 
 #This is absautly nesacssry. It return wierd erros withou it. 
 X.rename("text", inplace=True)
+X = X.fillna("")
 y.rename("labels", inplace=True)
 
 # Split dataset into training and validation
@@ -97,18 +98,18 @@ if (polarity =="NEG"):
     label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
 
 # #just the first time to load the base model
-model_name = "JeRTeh/sr-gpt2-large"
-#model_name = f"Tanor/SRGPTTest{polarity}"
+#model_name = "JeRTeh/sr-gpt2-large"
+model_name = f"Tanor/SRGPTTest{polarity}"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(
     model_name, num_labels=2,  id2label=id2label, 
     label2id=label2id, )
 #Just first time to upload base model for fitting 
-model_name = f"Tanor/SRGPTTest{polarity}"
-create_repo(model_name, private = True)
-model.push_to_hub(model_name)
-tokenizer.push_to_hub(model_name)
+#model_name = f"Tanor/SRGPTTest{polarity}"
+#create_repo(model_name, private = True)
+#model.push_to_hub(model_name)
+#tokenizer.push_to_hub(model_name)
 
 
 dataset_val = Dataset.from_pandas(pd.concat([X_val, y_val], axis=1))
@@ -153,8 +154,21 @@ trainer.push_to_hub()
 print(f"""Max memory allocated by tensors:
 {torch.cuda.max_memory_allocated(device=None) / (1024 ** 3):.2f} GB""")
 
-predicted_classes = batch_predict(model, list(X_test), batch_size=16)
+pipe = pipeline("text-classification", model=model, tokenizer= tokenizer, device =0)
+# your list of dictionaries
+data = pipe(X_test.to_list())
+
+# convert the list of dictionaries into a pandas DataFrame
+df = pd.DataFrame(data)
+
+# convert the 'label' column into a series where 'NON-POSITIVE' is 0 and 'POSITIVE' is 1
+df['label'] = df['label'].map(label2id)
+
+# if you want to get only the 'label' column as a Series
+series = df['label']
+predicted_classes = series.values
 y_test_np = y_test.values
+
 confusion_mat = confusion_matrix(y_test_np, predicted_classes)
 
 print(confusion_mat)
