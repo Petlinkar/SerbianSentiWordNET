@@ -14,127 +14,187 @@ import time
 from datasets import Dataset
 from transformers import DataCollatorWithPadding
 import evaluate
-from transformers import  TrainingArguments, Trainer
+from transformers import  TrainingArguments, Trainer, pipeline
 from tqdm import tqdm
 import torch
 
-def batch_predict(model, data, batch_size=32):
-    model.eval()  # put model in evaluation mode
-    batched_data = []
-    
-    # Generate batches
-    for i in range(0, len(data), batch_size):
-        batch = data[i:i + batch_size]
-        batched_data.append(batch)
-    
-    predictions = []
 
-    start_time = time.time()  # Record start time
-    for batch in tqdm(batched_data, desc="Predicting"):  # Add progress bar
-        encoded_data = tokenizer(batch, padding=True, truncation=True, return_tensors="pt")
-        with torch.no_grad():
-            outputs = model(encoded_data['input_ids'], attention_mask=encoded_data['attention_mask'])
-            pred_classes = torch.argmax(outputs.logits, dim=1)
-            predictions.extend(pred_classes.cpu().numpy())  # Move prediction to CPU and convert to numpy array
-
-    end_time = time.time()  # Record end time
-    print(f"Prediction completed in {end_time - start_time} seconds.")  # Print elapsed time
-
-    return predictions
-
-def preprocess_function(examples):
-    return tokenizer(examples["text"], max_length=maxlen,truncation=True, padding=True)
-def compute_metrics(eval_pred):
-    predictions, labels = eval_pred
-    predictions = np.argmax(predictions, axis=1)
-    return accuracy.compute(predictions=predictions, references=labels)
-
+torch.cuda.empty_cache()
+torch.cuda.set_per_process_memory_fraction(0.8, 0)
 ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
 MOD_DIR = os.path.join(ROOT_DIR, "ml_models")
 TRAIN_DIR = os.path.join(ROOT_DIR, "train_sets")
-REP_DIR = os.path.join(ROOT_DIR, "reports", "Transformer")
-maxlen = 200
+REP_DIR = os.path.join(ROOT_DIR, "reports", "BERTic")
+maxlen = 300
+# Create directory if not exists
+if not os.path.exists(REP_DIR):
+    os.makedirs(REP_DIR)
+def train_model (i, polarity):
+    def preprocess_function(examples):
+        return tokenizer(examples["text"], max_length=maxlen,truncation=True, padding=True)
+    def compute_metrics(eval_pred):
+        predictions, labels = eval_pred
+        predictions = np.argmax(predictions, axis=1)
+        return accuracy.compute(predictions=predictions, references=labels)
 
-# Record the start time
-start_time = time.time()
-i = 6   #This is iteration, becasue time needed to fit model 
-        #it's not place in loop
+    torch.cuda.empty_cache()
+    BATCH_SIZE = 64
+    
+    # Construct file name
+    name = f"UP{polarity}{i}.csv"
+    
+    # Read the training data from the CSV files
+    X = pd.read_csv(os.path.join(TRAIN_DIR, f"X_train_{name}"))["Sysnet"]
+    y = pd.read_csv(os.path.join(TRAIN_DIR, f"y_train_{name}"))[polarity]
+    
+   
+    # Renaming is necessary to avoid errors in subsequent operations
+    X.rename("text", inplace=True)
+    y.rename("labels", inplace=True)
+    
+    # Split the dataset into training and validation subsets
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, 
+                                                      stratify=y, random_state=42)
 
-polarity = "POS" # same reason for polarity
-BUFFER_SIZE = 1000
-BATCH_SIZE = 128
+    # Define label mappings based on polarity
+    id2label = {0: "NON-POSITIVE", 1: "POSITIVE"}
+    label2id = {"NON-POSITIVE": 0, "POSITIVE": 1}
+    if (polarity =="NEG"):
+        id2label = {0: "NON-NEGATIVE", 1: "NEGATIVE"}
+        label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
+    
+    # Construct the model name
+    model_name = f"Tanor/BERTicSENT{polarity}{i}"
+    
+    # Load tokenizer and model
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSequenceClassification.from_pretrained(
+        model_name, num_labels=2,  id2label=id2label, 
+        label2id=label2id, )
 
-# File name
-name = f"LM{polarity}{i}.csv"
+    # Construct datasets for validation and training
+    dataset_val = Dataset.from_pandas(pd.concat([X_val, y_val], axis=1))
+    dataset_train = Dataset.from_pandas(pd.concat([X_train, y_train], axis=1))
+    
+    # Tokenize datasets
+    tokenised_val=dataset_val.map(preprocess_function)
+    tokenised_train =dataset_train.map(preprocess_function)
+    
+    # Define output directory
+    outputdir = f"BERTicSENT{polarity}{i}"
+    
+    # Set up data collator, accuracy metric, and training arguments
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+    accuracy = evaluate.load("accuracy")
+    training_args = TrainingArguments(
+        output_dir=outputdir,
+        overwrite_output_dir = True,
+        learning_rate=2e-5,
+        per_device_train_batch_size=BATCH_SIZE,
+        per_device_eval_batch_size=16,
+        gradient_accumulation_steps=4, 
+        gradient_checkpointing=True,
+        optim="adafactor",
+        num_train_epochs=16,
+        weight_decay=0.01,
+        evaluation_strategy="epoch",
+        save_strategy="epoch",
+        load_best_model_at_end=True,
+        push_to_hub=True,
+    )
+    
+    # Initialize trainer
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenised_train,
+        eval_dataset=tokenised_val,
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+        compute_metrics=compute_metrics,
+    )
+    
+    # Train model and push to hub
+    trainer.train()
+    trainer.push_to_hub()
 
-# Read the data from the CSV file
-X = pd.read_csv(os.path.join(TRAIN_DIR, f"X_train_{name}"))["Sysnet"]
-y = pd.read_csv(os.path.join(TRAIN_DIR, f"y_train_{name}"))[polarity]
+    # Show GPU memory usage before and after deleting the model and datasets
+    print(f"""Max memory allocated by tensors- before:
+    {torch.cuda.max_memory_allocated(device=None) / (1024 ** 3):.2f} GB""")
+    del model
+    del tokenizer
+    del tokenised_val
+    del tokenised_train
+    del dataset_val
+    del dataset_train
+    torch.cuda.empty_cache()
+    print(f"""Max memory allocated by tensors- after:
+    {torch.cuda.max_memory_allocated(device=None) / (1024 ** 3):.2f} GB""")
 
-X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
-y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
+def test_model(i, polarity):
+    # Empty GPU cache before testing model
+    torch.cuda.empty_cache()
 
-X.rename("text", inplace=True)
-y.rename("labels", inplace=True)
+    # Construct file name
+    name = f"UP{polarity}{i}.csv"
+    
+    # Load the test data
+    X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
+    y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
+        
+    # Construct model name
+    model_name = f"Tanor/BERTicSENT{polarity}{i}"
+    
+    # Load model using pipeline
+    pipe = pipeline("text-classification", model=model_name)
+    
+    # Define label to id mapping
+    label2id = {"NON-POSITIVE": 0, "POSITIVE": 1}
+    if (polarity =="NEG"):
+        label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
+    
+    # Process test data through pipeline
+    data = pipe(X_test.to_list())
+    
+    # Convert the list of dictionaries into a pandas DataFrame
+    df = pd.DataFrame(data)
+    
+    # Convert the 'label' column into a series where 'NON-POSITIVE' is 0 and 'POSITIVE' is 1
+    df['label'] = df['label'].map({'NON-POSITIVE': 0, 'POSITIVE': 1})
+    
+    # Convert 'label' column into a series
+    series = df['label']
+    predicted_classes = series.values
+    
+    # Compute confusion matrix
+    y_test_np = y_test.values
+    confusion_mat = confusion_matrix(y_test_np, predicted_classes)
+    
+    print(confusion_mat)
+    classification_rep = classification_report(y_test_np, predicted_classes)
+    
+    print(classification_rep)
+    
+    # Write confusion matrix and classification report to a file
+    with open(os.path.join(REP_DIR, f"report_{name}.txt"), "w") as f:
+        f.write(str(confusion_mat))
+        f.write("\n\n")
+        f.write(classification_rep)
+    
+    # Create a DataFrame with test data, predicted classes and real classes
+    table = pd.DataFrame({"X": X_test, "Predicted": predicted_classes, 
+                          "Real": y_test})
+    
+    # Create a table of misclassified instances
+    misclassified_X = table[table["Predicted"] != table["Real"]]
+    
+    # Save the table of misclassified instances to a file
+    misclassified_X.to_csv(os.path.join(REP_DIR, f"table_{name}.csv"), index=False)
+    
+    # Delete the pipeline to free up memory
+    del pipe
+    torch.cuda.empty_cache()
 
-# Split dataset into training and validation
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, 
-                                                  stratify=y, random_state=42)
-id2label = {0: "NON-POSITIVE", 1: "POSITIVE"}
-label2id = {"NON-POSITIVE": 0, "POSITIVE": 1}
+    
 
-# #just first time to load base model
-model = "classla/bcms-bertic"
-# model = f"Tanor/BERTic_{i}_{polarity}"
-
-tokenizer = AutoTokenizer.from_pretrained(model)
-model_POS = AutoModelForSequenceClassification.from_pretrained(
-    model, num_labels=2,  id2label=id2label, 
-    label2id=label2id, )
-#JUst first time to upload base model for fitting 
-model = f"Tanor/BERTic_{i}_{polarity}"
-# model_POS.push_to_hub(model)
-# tokenizer.push_to_hub(model)
-dataset_val = Dataset.from_pandas(pd.concat([X_val, y_val], axis=1))
-dataset_train = Dataset.from_pandas(pd.concat([X_train, y_train], axis=1))
-
-tokenised_val=dataset_val.map(preprocess_function)
-tokenised_train =dataset_train.map(preprocess_function)
-
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-accuracy = evaluate.load("accuracy")
-training_args = TrainingArguments(
-    output_dir=os.path.join("C:",model),
-    learning_rate=2e-5,
-    per_device_train_batch_size=32,
-    per_device_eval_batch_size=16,
-    num_train_epochs=4,
-    weight_decay=0.01,
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    load_best_model_at_end=True,
-    push_to_hub=True,
-)
-
-trainer = Trainer(
-    model=model_POS,
-    args=training_args,
-    train_dataset=tokenised_train,
-    eval_dataset=tokenised_val,
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
-)
-
-trainer.train()
-
-
-predicted_classes = batch_predict(model_POS, list(X_test), batch_size=32)
-y_test_np = y_test.values
-confusion_mat = confusion_matrix(y_test_np, predicted_classes)
-
-print(confusion_mat)
-classification_rep = classification_report(y_test_np, predicted_classes)
-
-print(classification_rep)
