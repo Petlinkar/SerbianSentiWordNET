@@ -25,26 +25,19 @@ ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
 MOD_DIR = os.path.join(ROOT_DIR, "ml_models")
 TRAIN_DIR = os.path.join(ROOT_DIR, "train_sets")
-REP_DIR = os.path.join(ROOT_DIR, "reports", "BERTic")
+REP_DIR = os.path.join(ROOT_DIR, "reports", "BERTovic-2")
 maxlen = 300
 # Create directory if not exists
 if not os.path.exists(REP_DIR):
     os.makedirs(REP_DIR)
-def train_model (i, polarity, eval = "accuracy", epochs=16):
+def train_model (i, polarity):
     def preprocess_function(examples):
         return tokenizer(examples["text"], max_length=maxlen,truncation=True, padding=True)
-
     def compute_metrics(eval_pred):
         predictions, labels = eval_pred
         predictions = np.argmax(predictions, axis=1)
-        return accuracy.compute(predictions=predictions, references=labels)
+        return macro_f1.compute(predictions=predictions, references=labels)
 
-    if eval == "f1":
-        def compute_metrics(eval_pred):
-            predictions, labels = eval_pred
-            predictions = np.argmax(predictions, axis=1)
-            return f1_score.compute(predictions=predictions, references=labels)
- 
     torch.cuda.empty_cache()
     BATCH_SIZE = 64
     
@@ -73,7 +66,7 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
         label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
     
     # Construct the model name
-    model_name = f"Tanor/BERTicSENT{polarity}{i}"
+    model_name = r"C:\Serbian Corpora\bertovic-base2"
     
     # Load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -90,12 +83,14 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     tokenised_train =dataset_train.map(preprocess_function)
     
     # Define output directory
-    outputdir = f"BERTicSENT{polarity}{i}"
+    outputdir = r"C:\Serbian Corpora\bertovic-base2\POS"
     
     # Set up data collator, accuracy metric, and training arguments
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     accuracy = evaluate.load("accuracy")
-    f1_score = evaluate.load("f1")
+
+    # Create a macro averaged F1 score metric
+    macro_f1 = evaluate.load("f1", average="macro")
     training_args = TrainingArguments(
         output_dir=outputdir,
         overwrite_output_dir = True,
@@ -105,12 +100,12 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
         gradient_accumulation_steps=4, 
         gradient_checkpointing=True,
         optim="adafactor",
-        num_train_epochs=epochs,
+        num_train_epochs=16,
         weight_decay=0.01,
         evaluation_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
-        push_to_hub=True,
+        push_to_hub=False,
     )
     
     # Initialize trainer
@@ -126,7 +121,6 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     
     # Train model and push to hub
     trainer.train()
-    trainer.push_to_hub()
 
     # Show GPU memory usage before and after deleting the model and datasets
     print(f"""Max memory allocated by tensors- before:
@@ -151,9 +145,9 @@ def test_model(i, polarity):
     # Load the test data
     X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
     y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
-    X_test = X_test.fillna("")    
+    X_test = X_test.fillna("")        
     # Construct model name
-    model_name = f"Tanor/BERTicSENT{polarity}{i}"
+    model_name = r"C:\Serbian Corpora\bertovic-base2\POS"
     
     # Load model using pipeline
     pipe = pipeline("text-classification", model=model_name)

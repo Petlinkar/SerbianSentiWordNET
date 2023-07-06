@@ -52,7 +52,7 @@ def preprocess_function(examples):
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
-    return accuracy.compute(predictions=predictions, references=labels)
+    return f1_score.compute(predictions=predictions, references=labels)
 
 ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
@@ -66,7 +66,7 @@ if not os.path.exists(REP_DIR):
 # Record the start time
 start_time = time.time()
 
-i = 6   #This is iteration, becasue time needed to fit model 
+i = 0   #This is iteration, becasue time needed to fit model 
         #it's not place in loop
 
 polarity = "NEG" # same reason for polarity
@@ -74,7 +74,7 @@ BUFFER_SIZE = 1000
 BATCH_SIZE = 128
 
 # File name
-name = f"LM{polarity}{i}.csv"
+name = f"UP{polarity}{i}.csv"
 
 # Read the data from the CSV file
 X = pd.read_csv(os.path.join(TRAIN_DIR, f"X_train_{name}"))["Sysnet"]
@@ -99,14 +99,14 @@ if (polarity =="NEG"):
 
 # #just the first time to load the base model
 #model_name = "JeRTeh/sr-gpt2-large"
-model_name = f"Tanor/SRGPTTest{polarity}"
+model_name = f"Tanor/SRGPTSENT{polarity}{i}"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(
     model_name, num_labels=2,  id2label=id2label, 
     label2id=label2id, )
 #Just first time to upload base model for fitting 
-#model_name = f"Tanor/SRGPTTest{polarity}"
+#model_name = f"Tanor/SRGPTSENT{polarity}{i}"
 #create_repo(model_name, private = True)
 #model.push_to_hub(model_name)
 #tokenizer.push_to_hub(model_name)
@@ -119,9 +119,10 @@ print(torch.cuda.max_memory_allocated(device=None))
 tokenised_val=dataset_val.map(preprocess_function)
 tokenised_train =dataset_train.map(preprocess_function)
 
-ouputdir = f"SRGPTTest{polarity}"
+ouputdir = f"SRGPTSENT{polarity}{i}"
 data_collator = DataCollatorWithPadding (tokenizer=tokenizer, padding  =False)
 accuracy = evaluate.load("accuracy")
+f1_score = evaluate.load("f1")
 training_args = TrainingArguments(
     output_dir=ouputdir,
     overwrite_output_dir = True,
@@ -131,7 +132,7 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=4, 
     gradient_checkpointing=True,
     optim="adafactor",
-    num_train_epochs=6,
+    num_train_epochs=1,
     weight_decay=0.01,
     evaluation_strategy="epoch",
     save_strategy="epoch",

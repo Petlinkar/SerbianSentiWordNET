@@ -30,14 +30,21 @@ maxlen = 300
 # Create directory if not exists
 if not os.path.exists(REP_DIR):
     os.makedirs(REP_DIR)
-def train_model (i, polarity):
+def train_model (i, polarity, eval = "accuracy", epochs=16):
     def preprocess_function(examples):
         return tokenizer(examples["text"], max_length=maxlen,truncation=True, padding=True)
+
     def compute_metrics(eval_pred):
         predictions, labels = eval_pred
         predictions = np.argmax(predictions, axis=1)
         return accuracy.compute(predictions=predictions, references=labels)
 
+    if eval == "f1":
+        def compute_metrics(eval_pred):
+            predictions, labels = eval_pred
+            predictions = np.argmax(predictions, axis=1)
+            return f1_score.compute(predictions=predictions, references=labels)
+ 
     torch.cuda.empty_cache()
     BATCH_SIZE = 64
     
@@ -88,6 +95,7 @@ def train_model (i, polarity):
     # Set up data collator, accuracy metric, and training arguments
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     accuracy = evaluate.load("accuracy")
+    f1_score = evaluate.load("f1")
     training_args = TrainingArguments(
         output_dir=outputdir,
         overwrite_output_dir = True,
@@ -97,7 +105,7 @@ def train_model (i, polarity):
         gradient_accumulation_steps=4, 
         gradient_checkpointing=True,
         optim="adafactor",
-        num_train_epochs=16,
+        num_train_epochs=epochs,
         weight_decay=0.01,
         evaluation_strategy="epoch",
         save_strategy="epoch",
