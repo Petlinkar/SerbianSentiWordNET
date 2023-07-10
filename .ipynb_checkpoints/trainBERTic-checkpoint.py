@@ -126,7 +126,23 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     
     # Train model and push to hub
     trainer.train()
-    trainer.push_to_hub()
+    
+    for attempt in range(max_attempts):
+        try:
+            # Try to push the model to the hub
+            trainer.push_to_hub()
+    
+            # If the push is successful, exit the loop
+            break
+    
+        except Exception as e:
+            print(f"Push attempt {attempt+1} failed with error: {e}")
+    
+            # If this wasn't the last attempt, wait before trying again
+            if attempt < max_attempts - 1:
+                time.sleep(10)  # Wait for 10 seconds
+            else:
+                print("All push attempts failed.")
 
     # Show GPU memory usage before and after deleting the model and datasets
     print(f"""Max memory allocated by tensors- before:

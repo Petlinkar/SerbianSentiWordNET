@@ -36,7 +36,13 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     def compute_metrics(eval_pred):
         predictions, labels = eval_pred
         predictions = np.argmax(predictions, axis=1)
-        return macro_f1.compute(predictions=predictions, references=labels)
+        return accuracy.compute(predictions=predictions, references=labels)
+
+    if eval == "f1":
+        def compute_metrics(eval_pred):
+            predictions, labels = eval_pred
+            predictions = np.argmax(predictions, axis=1)
+            return f1_score.compute(predictions=predictions, references=labels)
 
     torch.cuda.empty_cache()
     BATCH_SIZE = 64
@@ -100,7 +106,7 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
         gradient_accumulation_steps=4, 
         gradient_checkpointing=True,
         optim="adafactor",
-        num_train_epochs=16,
+        num_train_epochs=epochs,
         weight_decay=0.01,
         evaluation_strategy="epoch",
         save_strategy="epoch",
@@ -121,8 +127,23 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     
     # Train model and push to hub
     trainer.train()
-    trainer.push_to_hub()
-
+    max_attempts = 3    
+        for attempt in range(max_attempts):
+        try:
+            # Try to push the model to the hub
+            trainer.push_to_hub()
+    
+            # If the push is successful, exit the loop
+            break
+    
+        except Exception as e:
+            print(f"Push attempt {attempt+1} failed with error: {e}")
+            # If this wasn't the last attempt, wait before trying again
+            if attempt < max_attempts - 1:
+                time.sleep(10)  # Wait for 10 seconds
+            else:
+                print(r'All push attempts failed.')
+                
     # Show GPU memory usage before and after deleting the model and datasets
     print(f"""Max memory allocated by tensors- before:
     {torch.cuda.max_memory_allocated(device=None) / (1024 ** 3):.2f} GB""")
