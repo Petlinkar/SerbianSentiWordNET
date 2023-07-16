@@ -14,7 +14,7 @@ import time
 from datasets import Dataset
 from transformers import DataCollatorWithPadding  
 import evaluate
-from transformers import  TrainingArguments, Trainer, pipeline
+from transformers import  TrainingArguments, Trainer, pipeline, EarlyStoppingCallback
 from tqdm import tqdm
 import torch
 from huggingface_hub import create_repo
@@ -58,8 +58,8 @@ ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
 MOD_DIR = os.path.join(ROOT_DIR, "ml_models")
 TRAIN_DIR = os.path.join(ROOT_DIR, "train_sets")
-REP_DIR = os.path.join(ROOT_DIR, "reports", "SRGPT-test")
-maxlen = 200
+REP_DIR = os.path.join(ROOT_DIR, "reports", "SRGPT")
+maxlen = 300
 # Create directory if not exists
 if not os.path.exists(REP_DIR):
     os.makedirs(REP_DIR)
@@ -69,7 +69,7 @@ start_time = time.time()
 i = 0   #This is iteration, becasue time needed to fit model 
         #it's not place in loop
 
-polarity = "NEG" # same reason for polarity
+polarity = "POS" # same reason for polarity
 BUFFER_SIZE = 1000
 BATCH_SIZE = 128
 
@@ -97,19 +97,12 @@ if (polarity =="NEG"):
     id2label = {0: "NON-NEGATIVE", 1: "NEGATIVE"}
     label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
 
-# #just the first time to load the base model
-#model_name = "JeRTeh/sr-gpt2-large"
 model_name = f"Tanor/SRGPTSENT{polarity}{i}"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(
     model_name, num_labels=2,  id2label=id2label, 
     label2id=label2id, )
-#Just first time to upload base model for fitting 
-#model_name = f"Tanor/SRGPTSENT{polarity}{i}"
-#create_repo(model_name, private = True)
-#model.push_to_hub(model_name)
-#tokenizer.push_to_hub(model_name)
 
 
 dataset_val = Dataset.from_pandas(pd.concat([X_val, y_val], axis=1))
@@ -132,7 +125,7 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=4, 
     gradient_checkpointing=True,
     optim="adafactor",
-    num_train_epochs=1,
+    num_train_epochs=10,
     weight_decay=0.01,
     evaluation_strategy="epoch",
     save_strategy="epoch",
@@ -148,9 +141,12 @@ trainer = Trainer(
     tokenizer=tokenizer,
     data_collator=data_collator,
     compute_metrics=compute_metrics,
+    callbacks=[EarlyStoppingCallback(early_stopping_patience=3)], # wait for '3' evaluation steps without improvement.
+
 )
 
 trainer.train()
+max_attempts = 10
 for attempt in range(max_attempts):
     try:
         # Try to push the model to the hub

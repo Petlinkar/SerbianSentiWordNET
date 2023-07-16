@@ -14,7 +14,7 @@ import time
 from datasets import Dataset
 from transformers import DataCollatorWithPadding
 import evaluate
-from transformers import  TrainingArguments, Trainer, pipeline
+from transformers import  TrainingArguments, Trainer, pipeline, EarlyStoppingCallback
 from tqdm import tqdm
 import torch
 
@@ -25,7 +25,7 @@ ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
 MOD_DIR = os.path.join(ROOT_DIR, "ml_models")
 TRAIN_DIR = os.path.join(ROOT_DIR, "train_sets")
-REP_DIR = os.path.join(ROOT_DIR, "reports", "BERTicovo")
+REP_DIR = os.path.join(ROOT_DIR, "reports", "BERTicovo2")
 maxlen = 300
 # Create directory if not exists
 if not os.path.exists(REP_DIR):
@@ -123,6 +123,8 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
         tokenizer=tokenizer,
         data_collator=data_collator,
         compute_metrics=compute_metrics,
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=3)], # wait for '3' evaluation steps without improvement.
+
     )
     
     # Train model and push to hub
