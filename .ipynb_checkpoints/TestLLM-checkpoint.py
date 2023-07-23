@@ -2,6 +2,8 @@ import torch
 from transformers import pipeline
 import pandas as pd
 import os
+from sklearn.metrics import confusion_matrix, classification_report
+
 ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
 MOD_DIR = os.path.join(ROOT_DIR, "ml_models")
@@ -24,7 +26,7 @@ def print_correctly_classified_instances(i, polarity, model ="BERTic"):
         model_name = f"Tanor/BERTicSENT{polarity}{i}"
     if (model=="BERTicovo"):
         model_name = f"Tanor/BERTicovoSENT{polarity}{i}"
-    if (model=="SRBGPT"):
+    if (model=="SRGPT"):
         model_name = f"Tanor/SRGPTSENT{polarity}{i}"
     
     # Load model using pipeline
@@ -120,4 +122,55 @@ def run_model(X_test, y_test, model_name, label2id):
     torch.cuda.empty_cache()
 
     return correct_class_1
+    
+def test_model(i, polarity, model ="BERTic"):
+    # Empty GPU cache before testing model
+    torch.cuda.empty_cache()
+
+    # Construct file name
+    name = f"UP{polarity}{i}.csv"
+    
+    # Load the test data
+    X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
+    y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
+    X_test = X_test.fillna("")    
+    # Construct model name
+    if (model=="BERTic"):
+        model_name = f"Tanor/BERTicSENT{polarity}{i}"
+    if (model=="BERTicovo"):
+        model_name = f"Tanor/BERTicovoSENT{polarity}{i}"
+    if (model=="SRGPT"):
+        model_name = f"Tanor/SRGPTSENT{polarity}{i}"    
+    # Load model using pipeline
+    pipe = pipeline("text-classification", model=model_name)
+    
+    # Define label to id mapping
+    label2id = {"NON-POSITIVE": 0, "POSITIVE": 1}
+    if (polarity =="NEG"):
+        label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
+    
+    # Process test data through pipeline
+    data = pipe(X_test.to_list())
+    
+    # Convert the list of dictionaries into a pandas DataFrame
+    df = pd.DataFrame(data)
+    
+    # Convert the 'label' column into a series where 'NON-POSITIVE' is 0 and 'POSITIVE' is 1
+    df['label'] = df['label'].map(label2id)
+    
+    # Convert 'label' column into a series
+    series = df['label']
+    predicted_classes = series.values
+    
+    # Compute confusion matrix
+    y_test_np = y_test.values
+    confusion_mat = confusion_matrix(y_test_np, predicted_classes)
+    
+    print(confusion_mat)
+    classification_rep = classification_report(y_test_np, predicted_classes)
+    
+    print(classification_rep)
+    
+    del pipe
+    torch.cuda.empty_cache()
 

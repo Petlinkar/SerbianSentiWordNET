@@ -66,7 +66,7 @@ if not os.path.exists(REP_DIR):
 # Record the start time
 start_time = time.time()
 
-i = 0   #This is iteration, becasue time needed to fit model 
+i = 2   #This is iteration, becasue time needed to fit model 
         #it's not place in loop
 
 polarity = "POS" # same reason for polarity
@@ -141,7 +141,7 @@ trainer = Trainer(
     tokenizer=tokenizer,
     data_collator=data_collator,
     compute_metrics=compute_metrics,
-    callbacks=[EarlyStoppingCallback(early_stopping_patience=3)], # wait for '3' evaluation steps without improvement.
+    callbacks=[EarlyStoppingCallback(early_stopping_patience=2)], # wait for '2' evaluation steps without improvement.
 
 )
 

@@ -66,10 +66,10 @@ if not os.path.exists(REP_DIR):
 # Record the start time
 start_time = time.time()
 
-i = 2   #This is iteration, becasue time needed to fit model 
+i = 4   #This is iteration, becasue time needed to fit model 
         #it's not place in loop
 
-polarity = "POS" # same reason for polarity
+polarity = "NEG" # same reason for polarity
 BUFFER_SIZE = 1000
 BATCH_SIZE = 128
 
