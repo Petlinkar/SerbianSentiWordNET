@@ -64,7 +64,28 @@ def print_correctly_classified_instances(i, polarity, model ="BERTic"):
     del pipe
     torch.cuda.empty_cache()
     
-def compare_models(i, polarity, model1, model2):
+def compare_models(i, polarity, model1, model2, compare_misclassified=False, compare_other_class=False):
+    """
+    Compare the performance of two models on a test dataset based on specified criteria.
+
+    Parameters:
+    - i (int): An index used to construct the file name for loading test data.
+    - polarity (str): The sentiment polarity ("POS" or "NEG") used to construct the file name and model name.
+    - model1 (str): The name of the first model to compare.
+    - model2 (str): The name of the second model to compare.
+    - compare_misclassified (bool, optional): If True, the function will focus on instances that 
+                                              are misclassified by the models. Default is False.
+    - compare_other_class (bool, optional): If True, the function will focus on the opposite class 
+                                            (e.g., non-positive for "POS" polarity). Default is False.
+
+    Outputs:
+    - Prints the texts that match the specified criteria for both models, for the first model only, 
+      and for the second model only.
+      
+    Note:
+    This function relies on the 'run_model' and 'create_comparison_logic' functions to obtain model results 
+    and construct the comparison logic, respectively.
+    """
     # Construct file name
     name = f"UP{polarity}{i}.csv"
     
@@ -80,21 +101,45 @@ def compare_models(i, polarity, model1, model2):
     model_name2 = f"Tanor/{model2}SENT{polarity}{i}"
     
     # Create dataframes for each model to store the results
-    correct_class_1_model1 = run_model(X_test, y_test, model_name1, label2id)
-    correct_class_1_model2 = run_model(X_test, y_test, model_name2, label2id)
+    results_model1 = run_model(X_test, y_test, model_name1, label2id)
+    results_model2 = run_model(X_test, y_test, model_name2, label2id)
+
+    # Flags Logic for results_model1
+    comparison_logic_1, label = create_comparison_logic(results_model1, compare_misclassified, compare_other_class)
+
+    # Flags Logic for results_model2
+    comparison_logic_2, _ = create_comparison_logic(results_model2, compare_misclassified, compare_other_class)
+
+    results_model1_filtered = results_model1[comparison_logic_1]
+    results_model2_filtered = results_model2[comparison_logic_2]
+
+    # Find texts based on comparison logic for both models
+    matched_both = pd.merge(results_model1_filtered, results_model2_filtered, how='inner', on=['X'])
+    # Find texts based on comparison logic for the first model but not the second
+    matched_model1_only = results_model1_filtered[~results_model1_filtered.X.isin(results_model2_filtered.X)]
+    # Find texts based on comparison logic for the second model but not the first
+    matched_model2_only = results_model2_filtered[~results_model2_filtered.X.isin(results_model1_filtered.X)]
     
-    # Find texts correctly classified by both models
-    correct_both = pd.merge(correct_class_1_model1, correct_class_1_model2, how='inner', on=['X'])
-    # Find texts correctly classified by the first model but not the second
-    correct_model1_only = correct_class_1_model1[~correct_class_1_model1.X.isin(correct_class_1_model2.X)]
-    # Find texts correctly classified by the second model but not the first
-    correct_model2_only = correct_class_1_model2[~correct_class_1_model2.X.isin(correct_class_1_model1.X)]
-    
-    print("Texts correctly classified by both models:\n", correct_both["X"])
-    print("Texts correctly classified by the first model but not the second:\n", correct_model1_only["X"])
-    print("Texts correctly classified by the second model but not the first:\n", correct_model2_only["X"])
+    print(f"{label} by both models:\n", matched_both["X"])
+    print(f"{label} by the first model but not the second:\n", matched_model1_only["X"])
+    print(f"{label} by the second model but not the first:\n", matched_model2_only["X"])
+
     
 def run_model(X_test, y_test, model_name, label2id):
+    """
+    Run a model on a test dataset and return a DataFrame with the test data, 
+    predicted classes, and real classes.
+
+    Parameters:
+    - X_test (pd.Series): The test data.
+    - y_test (pd.Series): The real classes for the test data.
+    - model_name (str): The name of the model to run.
+    - label2id (dict): A dictionary mapping label names to integer IDs.
+
+    Returns:
+    - pd.DataFrame: A DataFrame with columns 'X' (test data), 'Predicted' (predicted classes), 
+                    and 'Real' (real classes).
+    """
     # Empty GPU cache before testing model
     torch.cuda.empty_cache()
     
@@ -114,16 +159,30 @@ def run_model(X_test, y_test, model_name, label2id):
     table = pd.DataFrame({"X": X_test, "Predicted": df['label'], 
                           "Real": y_test})
     
-    # Create a table of instances where the predicted class is 1 and the real class is also 1
-    correct_class_1 = table[(table["Predicted"] == 1) & (table["Real"] == 1)]
-    
     # Delete the pipeline to free up memory
     del pipe
     torch.cuda.empty_cache()
 
-    return correct_class_1
+    return table
+
     
 def test_model(i, polarity, model ="BERTic"):
+    """
+    Test a specified model on a given test dataset and print the confusion matrix and classification report.
+
+    Parameters:
+    - i (int): An index used to construct the file name for loading test data.
+    - polarity (str): The sentiment polarity ("POS" or "NEG") used to construct the file name and model name.
+    - model (str, optional): The name of the model to test. Default is "BERTic". 
+                             Options are "BERTic", "BERTicovo", and "SRGPT".
+
+    Outputs:
+    - Prints the confusion matrix and classification report for the tested model on the provided test data.
+
+    Notes:
+    - The function assumes that the test data is stored in csv files with specific naming conventions.
+    - It uses the HuggingFace's transformers pipeline to load and test the model.
+    """
     # Empty GPU cache before testing model
     torch.cuda.empty_cache()
 
@@ -173,4 +232,41 @@ def test_model(i, polarity, model ="BERTic"):
     
     del pipe
     torch.cuda.empty_cache()
+def create_comparison_logic(df, compare_misclassified, compare_other_class):
+    """
+    Create a boolean mask for a DataFrame based on the given comparison criteria.
+    
+    Parameters:
+    - df (pd.DataFrame): The DataFrame for which the mask is being generated. 
+                         It should have columns 'Predicted' and 'Real' indicating 
+                         the predicted and actual classes, respectively.
+    - compare_misclassified (bool): If True, the mask will select instances that 
+                                    are misclassified. If False, it will select 
+                                    instances that are correctly classified.
+    - compare_other_class (bool): If True, the mask will focus on class 0 (e.g., non-positive). 
+                                  If False, it will focus on class 1 (e.g., positive).
+    
+    Returns:
+    - tuple: A tuple containing the boolean mask and a descriptive label.
+    """
+    
+    if not compare_misclassified and not compare_other_class:
+        # Correctly classified as class 1
+        comparison_logic = (df["Predicted"] == 1) & (df["Real"] == 1)
+        label = "Texts correctly classified as class 1"
+    elif compare_misclassified and not compare_other_class:
+        # Misclassified for class 1
+        comparison_logic = (df["Predicted"] != df["Real"]) & (df["Real"] == 1)
+        label = "Texts misclassified for class 1"
+    elif not compare_misclassified and compare_other_class:
+        # Correctly classified as class 0
+        comparison_logic = (df["Predicted"] == 0) & (df["Real"] == 0)
+        label = "Texts correctly classified as class 0"
+    else:
+        # Misclassified for class 0
+        comparison_logic = (df["Predicted"] != df["Real"]) & (df["Real"] == 0)
+        label = "Texts misclassified for class 0"
+    
+    return comparison_logic, label
+
 
