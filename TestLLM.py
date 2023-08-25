@@ -3,6 +3,8 @@ from transformers import pipeline
 import pandas as pd
 import os
 from sklearn.metrics import confusion_matrix, classification_report
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
@@ -270,3 +272,121 @@ def create_comparison_logic(df, compare_misclassified, compare_other_class):
     return comparison_logic, label
 
 
+
+def plot_score_distribution(df, score_col, true_col, pred_col, title="Score Distribution"):
+    """
+    Plot the distribution of model scores.
+
+    Parameters:
+    - df (pd.DataFrame): DataFrame containing the data.
+    - score_col (str): Name of the column containing the model scores.
+    - true_col (str): Name of the column containing the true labels.
+    - pred_col (str): Name of the column containing the predicted labels.
+    - title (str): Title for the plot.
+    """
+    # Correctly Classified
+    correct = df[df[true_col] == df[pred_col]][score_col]
+    # Misclassified
+    misclassified = df[df[true_col] != df[pred_col]][score_col]
+
+    # Plot
+    plt.figure(figsize=(10, 6))
+    sns.kdeplot(correct, shade=True, label="Correctly Classified", clip=(0,1))
+    sns.kdeplot(misclassified, shade=True, label="Misclassified", clip=(0,1))
+    plt.title(title)
+    plt.xlabel("Score")
+    plt.ylabel("Density")
+    plt.legend()
+    plt.show()
+
+# Usage:
+# Assuming 'results' is your dataframe with columns "Score", "Real" and "Predicted"
+# plot_score_distribution(results, "Score", "Real", "Predicted")
+
+def run_model_with_scores(X_test, y_test, model_name, label2id):
+    """
+    Run a model on a test dataset and return a DataFrame with the test data, 
+    predicted classes, real classes, and scores indicating the model's confidence.
+
+    Parameters:
+    - X_test (pd.Series): The test data.
+    - y_test (pd.Series): The real classes for the test data.
+    - model_name (str): The name of the model to run.
+    - label2id (dict): A dictionary mapping label names to integer IDs.
+
+    Returns:
+    - pd.DataFrame: A DataFrame with columns 'X' (test data), 'Predicted' (predicted classes), 
+                    'Real' (real classes), and 'Score' (model's confidence).
+    """
+    # Empty GPU cache before testing model
+    torch.cuda.empty_cache()
+    
+    # Load model using pipeline
+    pipe = pipeline("text-classification", model=model_name)
+    
+    # Process test data through pipeline
+    data = pipe(X_test.to_list())
+    
+    # Convert the list of dictionaries into a pandas DataFrame
+    df = pd.DataFrame(data)
+    
+    # Convert the 'label' column into a series based on label2id mapping
+    df['label'] = df['label'].map(label2id)
+    
+    # Adjust the score for label 0 if necessary
+    df['score'] = df.apply(lambda row: row['score'] if row['label'] == 1 else 1 - row['score'], axis=1)
+    
+    # Create a DataFrame with test data, predicted classes, real classes, and scores
+    table = pd.DataFrame({"X": X_test, "Predicted": df['label'], 
+                          "Real": y_test, "Score": df['score']})
+    
+    # Delete the pipeline to free up memory
+    del pipe
+    torch.cuda.empty_cache()
+
+    return table
+def plot_model_distribution(i, polarity, model="BERTic"):
+    """
+    Plot the distribution of a model's confidence scores on a given test dataset,
+    distinguishing between correctly classified and misclassified samples.
+
+    Parameters:
+    - i (int): An index used to construct the file name for loading test data.
+    - polarity (str): The sentiment polarity ("POS" or "NEG") used to construct the file name and model name.
+    - model (str, optional): The name of the model to test. Default is "BERTic". 
+                             Options are "BERTic", "BERTicovo", and "SRGPT".
+
+    Outputs:
+    - A plot showing the distribution of the model's confidence scores.
+    """
+    
+    # Empty GPU cache before testing model
+    torch.cuda.empty_cache()
+
+    # Construct file name
+    name = f"UP{polarity}{i}.csv"
+    
+    # Load the test data
+    X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"].fillna("")
+    y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
+    
+    # Define label to id mapping
+    label2id = {"NON-POSITIVE": 0, "POSITIVE": 1} if polarity != "NEG" else {"NON-NEGATIVE": 0, "NEGATIVE": 1}
+
+    # Construct model name
+    if model == "BERTic":
+        model_name = f"Tanor/BERTicSENT{polarity}{i}"
+    elif model == "BERTicovo":
+        model_name = f"Tanor/BERTicovoSENT{polarity}{i}"
+    elif model == "SRGPT":
+        model_name = f"Tanor/SRGPTSENT{polarity}{i}"
+
+    # Get results table using run_model_with_scores function
+    results = run_model_with_scores(X_test, y_test, model_name, label2id)
+
+    # Use the plot_score_distribution function
+    plot_score_distribution(df=results, 
+                            score_col="Score", 
+                            true_col="Real", 
+                            pred_col="Predicted", 
+                            title=f"Distribution of {model}'s Confidence Scores for {polarity} polarity")
