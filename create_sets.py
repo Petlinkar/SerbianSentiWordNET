@@ -92,13 +92,12 @@ def save_datasets(X_train, X_test, y_train, y_test, prefix):
 
 # ... (previous imports and function definitions remain the same)
 
-def generate_and_save_datasets(all_pol_sets, preprocess_fns=None):
+def generate_and_save_datasets(all_pol_sets, preprocess_fns, prefix):
     """
     Generate and save the training and testing datasets based on polarity sets and preprocessing functions.
     :param all_pol_sets: List of all polarity sets
     :param preprocess_fns: List of preprocessing functions, None for unprocessed
     """
-    prefix = "UP" if preprocess_fns is None else "LM"
     for i, pol_set in enumerate(all_pol_sets):
         for polarity in ["POS", "NEG"]:
             X, y = pol_set.getXY(polarity, preprocess=preprocess_fns)
@@ -227,10 +226,11 @@ if __name__ == "__main__":
 
     #add all whihc have sentonint 0,0 in english, by direct mapping
     pol_set.addWSWN()
-    # rmeove all whihc frmo polati lexikon SrpELTeC-3C
+    # rmeove all whihc from polarity lexikon Senti-Pol-sr
     path_to_csv = os.path.join(RES_DIR, "recnikPolariteta.csv")
     not_objective_synset_ids = get_synset_ids_from_csv(path_to_csv,swordnet )
-    pol_set.removeSyn(not_objective_synset_ids)
+    print (len(not_objective_synset_ids))
+    pol_set.removeSynIDs(not_objective_synset_ids)
 
     pol_set.addPOSall(positive_seed_words)
     pol_set.addNEGall(negative_seed_words)
@@ -251,10 +251,11 @@ if __name__ == "__main__":
 
     # Generate and Save Lemmatized Datasets
     preprocess_fns = [syn2gloss, tree_tagger.lemmarizer]
-    generate_and_save_datasets(all_pol_sets, preprocess_fns)
+    generate_and_save_datasets(all_pol_sets, preprocess_fns, "LM")
 
     # Generate and Save Unprocessed Datasets
-    generate_and_save_datasets(all_pol_sets)
+    preprocess_fns = [syn2gloss]
+    generate_and_save_datasets(all_pol_sets,preprocess_fns, "UP" )
         
 
 
