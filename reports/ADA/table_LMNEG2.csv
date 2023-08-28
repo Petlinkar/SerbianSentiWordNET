@@ -1,95 +1,73 @@
 X,Predicted,Real
-onaj koji niko ne žeti ili ne priželjkivati ,0,1
-"biti uplašiti , plašiti se ",0,1
-"koji jesam originalan ; jesam produktivan , ne donositi ništa neobično niti sveže . ",0,1
-uništiti kakav raspored ili redosled ,1,0
-koji osećati ili izazivati radost ,1,0
-"Severnoamerički medved , smeđ ili crn dlaka ; manjiti i manje okrutan od smeđ medved . ",1,0
-serijski izvršavanje računarski program ,1,0
-koji jesam otrovati ili proizvoditi otrov . ,0,1
-"koji jesam okarakterisati mračan , mističan i groteska ",0,1
-slab sposobnost da se razumeti iskustvo ili profitirati iz on . ,0,1
-na prljav i nečist način ,0,1
-Osećanje zabrinutost . ,0,1
-liver Or meat Or fowl finely minced Or ground and variously seasoned ,1,0
-zanimljiv ili šaren ukras koji se dodavati da umanjiti jednoličnost . ,1,0
-odbaciti ( dokument ) kao nevažeci ,0,1
-pružiti potreban podstrek za šta ,1,0
-mesto na koji nem ljudi ,1,0
-stanje oštećenosti ili raspad . ,0,1
-stanje u koji jesam neki zatvoren ( ako u zatvor ) . ,1,0
+čin okajanja greh ili nepravda ( naročito putem umirivanje božanstvo ) ,1,0
+nepokolebljiv verovanje u nešto bez potreba za dokaz ili nalaz ,0,1
+stanje kada jesam učiniti prekršaj . ,0,1
 staviti na kocka u nada za povoljan ishod . ,0,1
-tkivo koji se neki mekušac prihvatati za stena . ,1,0
-droga koji brzo izazivati zavisnost ,1,0
-neki nizak rang ili položaj ili kvalitet . ,0,1
-patiti od nešto ; bolovati od nešto . ,0,1
-koji jesam spojiti ili vezati . ,0,1
-zgrada u koji se vršiti likvidacija životinja radi proizvodnja meso ,0,1
-Ispuštati vonj . ,0,1
-Završetak ili uništenje unija . ,1,0
-"smear with blood , as In a hunting initiation rit , where the faca of a person is smeared with the blood of the kill ",0,1
-Not standard ; Not accepted as a model of excellence ,0,1
-na visok nivo po rang ili značaj ,1,0
-Učiniti da postati suv usled izlaganje toplota . ,1,0
-Čin konstruisanje nešto ( kao masšinskog delo ) . ,1,0
-osobina onaj ko jesam prihvatiti i ne upućivati on se pohvaliti . ,0,1
-Čin ili proces razdvajanje . ,1,0
-Čin oštećivanje nešto ili neki . ,1,0
-koji jesam u dobar zdravlje telo ili duh . ,0,1
-Čičkovac . ,0,1
-okarakterisan zloba ,0,1
-ne biti podložan nešto . ,0,1
-Učiniti nestabilan . ,1,0
-ispoljavanje rastuženosti ,0,1
-stanje biti nezaposlen ili nemati posati . ,0,1
-smatrati se da izazivati dijareja kod ljudi ,1,0
+koji jesam kreativan . ,0,1
 "koji jesam normalan , tipičan , uobičajen , regularan ili jesam u saglasnost sa norma . ",0,1
-koji moći da odgovoriti na fizički stimulans ,1,0
-osobina onaj što ne zasluživati poverenje . ,0,1
-Pokušaj da se za sebe dobiti ličan priznanje ( posebno neprihvatljiv sredstvo ) . ,0,1
-"žalovati , tugovati , ili osećati gubitak zbog nešto što jesam učiniti ili jesam učiniti ",0,1
-"koji karakeriše ili koji pokazivati odbijanje , poricanje ili suprotstavljanje ; koji nemati pozitivan svojstvo . ",1,0
-lak i humorističan drama sa srećan kraj ,1,0
-"koji postojati u stvarnost , uzeti iz život ",1,0
-ne pridržavanje moralan princip . ,0,1
-Oštećenje normalan fiziološki funkcija koji pogađati deo ili ceo organizam . ,1,0
-osećanje velik utučenost i melanholija ,0,1
-onaj koji posedovati moralan kvalitet ; ,1,0
-Osećanje velik žalost povezati sa gubitak ili lišavanje . ,0,1
-nanošenje telesni povreda lice koji jesam osuditi za izvršen zločin ,0,1
-prihvatati . ,1,0
-tako strašno da izazivati groza i jeza ,0,1
-škrtost koji proizilaziti iz briga za sopstven dobrobit i nepoštovanje drugi ,0,1
-"odgovor telesni tkivo na povreda ili nadržaj ; karakterisati ga bol , otok , crvenilo i pečenje . ",0,1
-"koji izazivati iznenađenje , čuđenje ili zadivljenost ",0,1
-ubijanje životinja ( za hrana ) ,0,1
-koji trpiti atrofija ,1,0
-žalostan zbog gubitak ili uskraćenosti ,0,1
+nepravedan postupanje prema neki osoba ili grupa na osnova predrasuda . ,0,1
+Osećanja koji se javljati kada osoba jesam u srećan stanje . ,0,1
+koji osećati ili ispoljavati kajanje zbog nedelo ,0,1
 koji jesam intelektualan . ,0,1
-Oružani sukob protiv neprijatelj . ,0,1
-koji jesam označen beznadežnost ili ispoljavati beznadežnost ,0,1
-razgnevxlen nešto nepravedan ili pogrešan ,0,1
-"koji osećati ili ispoljavati žalost , naročito zbog nepovratan gubitak ",0,1
-biti podvrgnuti nešto neprijatan . ,1,0
-organizovati akcija proizvodnja roba ili usluga za prodaja . ,1,0
-biti jako tužan ,0,1
-"Nemogućnost da se odmoriti , opustiti ili biti miran . ",0,1
-koji dovoditi ( pričinjavati ) fizički neudobnost . ,0,1
-umeti nešto uraditi ili imati potreban znanje . ,1,0
-koji nemati neki izrazit kvalitet ili karakteristika . ,1,0
-Osećanje mržnja . ,0,1
-stanje u koji jesam neki tužan . ,0,1
-koji jesam moralno odbojan ili neugodan za čulo . ,0,1
-čin nameran odstupanje od istina ,0,1
-nešto što izazivati osećanje čuđenje ,1,0
 podsticati neki da počiniti zločin ili neki krivičan delo ,0,1
-Započeti ili voditi rat . ,0,1
-"zaprljati , onečistiti . ",0,1
-preparat koji se nanositi na koža kako biti zakloniti neprijatan miris ,1,0
+Oštećenje normalan fiziološki funkcija koji pogađati deo ili ceo organizam . ,1,0
+razgnevxlen nešto nepravedan ili pogrešan ,0,1
+zgrada u koji se vršiti likvidacija životinja radi proizvodnja meso ,0,1
+patiti od nešto ; bolovati od nešto . ,0,1
+lišiti život ,1,0
+koji odražavati sumornost i smrknutost ,0,1
+Ispuštati vonj . ,0,1
+osoba koji jesam imati neki pozicija koji više nemati ,1,0
+Hava Or feel a dislike Or distaste for ,0,1
+"izazvati ljutnja , bes . ",1,0
+Uništiti ili oštetiti na nasilan način . ,0,1
+promena u nizak stanje ( manje poštovati ) ,0,1
+duhovan tekst sav hrišćanski religija ,1,0
+"faza u psihoseksualnom razvoj kada jesam interes dete koncentrisan na analan regija ; fiksacija u ovaj faza jesam reći dmože da dovesti do urednost , zloba , tvrdoglavost , kompulzivnosti . ",1,0
+koji više nemati životan funkcija ( ili bar tako izgledati ) . ,0,1
+kada nem jednakost ,0,1
+ne pridržavanje moralan princip . ,1,0
+stanje u koji se malo novac i materijalan dobro . ,0,1
 Osećanje averzija ili antipatija . ,0,1
-Sloboda od kontrola ili uticaj drugi ili drugi . ,1,0
-stanje zatočenosti ( obično za kratak vreme ) ,1,0
+Čin oštećivanje nešto ili neki . ,0,1
+moralno iskvariti ,0,1
+"nezgoda , posebno ona koji prouzrokovati povreda ili smrt . ",0,1
+koji jesam naklonjen prea nešto . ,0,1
+ubijanje životinja ( za hrana ) ,1,0
+iznenadan napad koji uključivati nameran upotreba nasilje prema civil da biti se postignuti politički ili religiozan cilj . ,0,1
+svaki odstupanje od zdrav ili normanog stanje ,0,1
+nedoličan ili nemoralan ponašanje ,0,1
+"Nemogućnost da se odmoriti , opustiti ili biti miran . ",0,1
+biti posledica nešto . ,1,0
+koji ne pokazivati dovoljno pijetet prema bog . ,0,1
+manjak uljudnost ; nepokazivanje poštovanje prema drugi ; povređivanje osećanje drugi . ,0,1
+Onemogućen i jesam slobodan ; ne mpože da delovati po sopstven volja . ,0,1
+koji izazivati potištenost ,0,1
+"koji ne tražiti , ne iziskivati specijalan nutricione potreba ",0,1
+bolan osećaj koji proizlaziti iz svest o nedovoljnost ili krivica ,0,1
+koji na sebe imati prljavština ili nečistoća . ,0,1
 koji jesam moralno lož ili pogrešan . ,0,1
-kvalitet neki ili nešto što imati slab ili manje poželjan pozicija . ,0,1
-koji se protiviti pravilo ili usvojen praksa . ,0,1
-"koji jesam popustljiv , koji se teško upravljati . ",0,1
+velik ( glavobolja ) . ,0,1
+Osećanje mržnja . ,0,1
+onaj što jesam u suprotnost sa princip pravda ili zakon ,0,1
+"govoriti nerazgovetno , obično tih glas . ",0,1
+ubijati ( životinja ) obično radi hrana ,0,1
+simptom neki fizički povreda ili poremećaj . ,0,1
+"neraspoznatljiv , nejasan obris ",0,1
+odsustvo osećanje ,0,1
+Završetak ili uništenje unija . ,1,0
+Čin konstruisanje nešto ( kao masšinskog delo ) . ,0,1
+"na primer , o vukanima ; koji trajno jesam aktivan . ",0,1
+Čičkovac . ,0,1
+koji osećati nadolazeći opasnost ,0,1
+odbiti s gnušanje ,0,1
+koji izazivati ili zasluživati mržnja ,0,1
+"( politika ) obezbeđivati usluga , ugovor i pozicija u zamjenu za politički podrška ",0,1
+čin davanje otrov osoba ili životinja s namera da se ubiti ,1,0
+Nešto što neki zadržavati . ,0,1
+Čin prljanje nešto . ,0,1
+snažan osećanje nedopadanje ,0,1
+koji jesam sklon ljubav ili ispoljavanje ljubav ,1,0
+"biti lažljiv , neiskren prema neki . ",0,1
+ne biti podložan nešto . ,0,1
+na nizak nivo po rang ili značaj ,0,1

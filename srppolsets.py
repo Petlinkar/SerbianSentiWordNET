@@ -673,7 +673,7 @@ class PolaritySets():
         for ID in IDs:
             self.removeSynID(ID, polarity)
         
-    def next_itteration (self):
+    def next_iteration (self):
         """
         Produces the next iteration of the polarity sets. 
         

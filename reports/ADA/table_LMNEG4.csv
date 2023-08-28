@@ -1,99 +1,101 @@
 X,Predicted,Real
-radnik koji jesam najamiti da obaviti posati . ,0,1
-"koji jesam popustljiv , koji se teško upravljati . ",0,1
-tvorevina koji jesam stvoriti neki osoba ili neki proces . ,1,0
-ne osecati se dobro ili udobno . ,0,1
-lak i humorističan drama sa srećan kraj ,1,0
-uništiti kakav raspored ili redosled ,1,0
-škrtost koji proizilaziti iz briga za sopstven dobrobit i nepoštovanje drugi ,0,1
-koji jesam naklonjen prea nešto . ,0,1
-onaj koji jesam stalan ili postojan ,0,1
-uzrokovati strah ,0,1
-"umanjiti po vrednost , karakter itd . ",0,1
-koji jesam raspoložiti da sarađivati ,0,1
-"smear with blood , as In a hunting initiation rit , where the faca of a person is smeared with the blood of the kill ",1,0
-izuzetno uvredljiv za moral ; koji izazivati užas ,0,1
-lišiti sloboda ; držati u zatvor ,0,1
-stanje u koji jesam neki tužan . ,0,1
-"koji jesam vlik po količina , broj ili stepen . ",0,1
-prekinuti nečiji zaposlenje . ,1,0
-Uništiti ili oštetiti na nasilan način . ,0,1
-onaj koji donositi zakon i drugi pravni norma ,1,0
-"čin komuniciranje sa božanstvo ( posebno koji se izražavati molba , obožavanje , pokajanje ili zahvalnost ) ",1,0
-ljudski čin stvaranje . ,0,1
-držanje do moralan princip ,1,0
-proizvesti ili stvoriti proizvod stvoren ljudski ruka . ,1,0
-"zaklanjati od opasnost , povreda , uništenje ili šteta . ",1,0
-bolest krv ili narušavanje funkcionisanje krvni ćelija . ,0,1
-imati neželjen ili negativan kvalitet ,0,1
-zabraniti zakon ili zvanično usvojen pravilo ,1,0
-Čin borba ; biti kakav nadmetanje ili sukob . ,1,0
-kvalitet koji ne pružati zadovoljstvo čulo . ,0,1
-svojstvo onaj koji nedostajati živost ,0,1
-taj neprekidan nerazumljiv zvuk ; obično ga pratiti kretanje usna koji ne proivodi artikulisan govor . ,0,1
-dati razlog za očekivanje . ,1,0
-radnik koji jesam steći poseban veština . ,1,0
-established Or widely recognized as a model of authority Or excellence ,1,0
-"biti lažljiv , neiskren prema neki . ",0,1
-izjaviti za neki da jesam kriv po krivičan optužba . ,1,0
-"( krivičan prava ) pravnosnažan , osuđujući presuda u krivičan postupak sa dosuđen kazna ",0,1
-osoba ili firma koji zapošljavati radnik ,0,1
-sastavljati od komponenta ili delovati . ,0,1
-posramiti neki ; povrediti nečiji ponos . ,0,1
-čin nameran odstupanje od istina ,0,1
-"slabljenje ili degeneracija , posebno usled nekorišćenja . ",0,1
-pružiti moralan ili emocionalan snaga ,1,0
-Čin prljanje nešto . ,0,1
-duboko dirnuti . ,0,1
-koji trpiti atrofija ,0,1
-stanje zatočenosti ( obično za kratak vreme ) ,1,0
-divljački i prekomeran ubijanje mnogi ljudi ,0,1
-Učiniti da postati suv usled izlaganje toplota . ,1,0
-ispoljavanje rastuženosti ,0,1
-koji jesam pred erupcija ili izbacivati lav ( o vulkan ) ,1,0
-umetnik nenadmašan veština . ,1,0
-"neposredno pre ili posle , kao u lanac uzrok i posledica ",1,0
-ubiti velik broj ljudi bez razlika . ,1,0
-Pričati na besposlen ili neobavezan način sa element sumnja ili bez dovoljno razlog da se doći do zaključak . ,0,1
-biti koji činjeničan nalaz koji pomagati da se ustanoviti istinitost nešto ,1,0
-"onaj koji se ne moći ukazati poverenje , u koji se ne moći pouzdati ",0,1
-čin bezbolan ubijanje neki ( posebno neki ko patiti od neizlečiv bolest ) ,1,0
-koji osećati nadolazeći opasnost ,0,1
-naneti neki nepravda ,0,1
-nesposobnost osoba da se setiti ili uraditi onaj što obično moći ; često uzrokovati emoionalnom napetost . ,0,1
-Čin konstruisanje nešto ( kao masšinskog delo ) . ,0,1
-zlonameran zadovoljstvo ,0,1
-"koji karakeriše ili koji pokazivati odbijanje , poricanje ili suprotstavljanje ; koji nemati pozitivan svojstvo . ",0,1
-stanje stvar koji jesam skoro izvan nečiji mogućnost da jesam rešiti i zahtevati velik napor da se rešiti ili prevazići . ,0,1
-Ispuštati vonj . ,0,1
-ljudski tvorevina koji jesam neki stvoriti . ,0,1
-Učiniti dobar . ,1,0
-odbaciti ( dokument ) kao nevažeci ,0,1
-osećanje velik utučenost i melanholija ,0,1
-koji na sebe imati prljavština ili nečistoća . ,0,1
-Onemogućen i jesam slobodan ; ne mpože da delovati po sopstven volja . ,0,1
-svaki šteta proisteći iz povreda prava ,0,1
-a commercial mix for making a caka ,1,0
-koji nem noga ( ud ) ,1,0
-osobina onaj što zasluživati poverenje . ,1,0
-odrati koža s šta ,1,0
-Započeti ili voditi rat . ,0,1
-odsustvo moralan ili duhovan vrednost ,0,1
-sticati znanje ili veština ,1,0
-nepravedan postupanje prema neki osoba ili grupa na osnova predrasuda . ,0,1
-obilno krvarenje kao posledica povreda krvni sud ,1,0
-otkazati ili poništiti radnja ili njen posledica ,1,0
-koji jesam nezavisan . ,0,1
-postati nestabilan . ,0,1
+"planirati tajno , obično nešto nezakonit . ",1,0
+na prljav i nečist način ,0,1
+koji ne moći da se desiti ili ostvariti ili s koji se ne moći rukovati . ,0,1
 odsustvo kvalitet koji biti činiti nešto vredan ili korisnim . ,0,1
-koji se protiviti pravilo ili usvojen praksa . ,0,1
-ne pridržavanje moralan princip . ,1,0
+briga o razlikovanje dobar i zao ili pravedan i nepravedan ; dobar ili pravedan ponašanje ,1,0
+nemogućnost prisustvo ,1,0
+mlad radikal koji podsticati reforma ,1,0
+bolan osećaj koji proizlaziti iz svest o nedovoljnost ili krivica ,0,1
+"koji se žeti , tražiti ",1,0
+koji izazivati potištenost ,0,1
+Čin oštećivanje nešto ili neki . ,1,0
+osećanje velik utučenost i melanholija ,0,1
+"u medicina , biti kakav osećaj ili promena u telesni funkcija koji pacijent doživljavati a povezivati se s određenom bolest . ",1,0
+ljudski tvorevina koji jesam neki stvoriti . ,0,1
+protivno zakon ili zakon zabraniti ,0,1
+osoba koji prav stvar ,1,0
+žalostan zbog gubitak ili uskraćenosti ,0,1
+koji na sebe imati prljavština ili nečistoća . ,0,1
+proglasiti kriv ( utvrditi krivica ) ,0,1
+manjak uljudnost ; nepokazivanje poštovanje prema drugi ; povređivanje osećanje drugi . ,0,1
+tvorevina koji jesam stvoriti neki osoba ili neki proces . ,1,0
+dominacija jedan država nad njen saveznik ,1,0
 "koji misliti najgore o ljudski priroda i motiv ; koji imati podrugljiv neverica u , npr . u nesebičnost drugi ",0,1
-Čovek koji nemati nikakav titula . ,1,0
+"podsticati ili ohrabrivati , naročito povik ",1,0
+koji imati složiti nutricione potreba ; rasti samo na specijalan veštački kultura podloga ,1,0
+sistem metoda koji se slediti u neki disciplina ,1,0
+sudski nalog koji se nalagati prisustvo svedok sudski postupak ; neodazivanje sudski poziv imati za posledica izricanje kazna za nepoštovanje sud ,1,0
+onesposobiti kretanje neki tako što se smestiti unutar neki granica . ,0,1
+Čin prljanje nešto . ,0,1
+koji jesam spojiti ili vezati . ,0,1
+koji pokazivati nedostatak briga za posledica . ,0,1
+"smear with blood , as In a hunting initiation rit , where the faca of a person is smeared with the blood of the kill ",0,1
+"koji karakeriše ili koji pokazivati odbijanje , poricanje ili suprotstavljanje ; koji nemati pozitivan svojstvo . ",0,1
+koji odražavati sumornost i smrknutost ,0,1
+Nešto što neki zadržavati . ,0,1
+ljudski čin stvaranje . ,1,0
+nepravedan čin ,1,0
+čin stvaranje pisan delo ,1,0
+stanje sumoran žalost ,0,1
+naprava smisliti da sprečiti povreda . ,1,0
+snažan član društvo ,1,0
+Hava Or feel a dislike Or distaste for ,0,1
+Čin koji se sloboda neki osoba ograničiti tako što se ona zatočiti ,0,1
+objaviti sudski presuda ( neki ) ,0,1
+koji nedostajati lepota ili šarm . ,0,1
+"koji jesam okarakterisati mračan , mističan i groteska ",0,1
+biti posledica nešto . ,1,0
+promena u nizak stanje ( manje poštovati ) ,0,1
+"( politika ) obezbeđivati usluga , ugovor i pozicija u zamjenu za politički podrška ",0,1
+postati gora . ,0,1
+"koji jesam vlik po količina , broj ili stepen . ",0,1
+stanje zatočenosti ( obično za kratak vreme ) ,1,0
+poseban oblik sagrešenje ,1,0
+ispuniti divljenje i ushićenje ,0,1
 proces promena u nizak stanje . ,0,1
-okrutno ili nehuman postupanje ,0,1
-"izazvati ljutnja , bes . ",0,1
-"govoriti nerazgovetno , obično tih glas . ",0,1
-osećanje naklonjenost ,1,0
-stanje kada jesam učiniti prekršaj . ,0,1
-"koji ne predstavljati teškoća , ne iziskivati napor . ",1,0
+"odgovor telesni tkivo na povreda ili nadržaj ; karakterisati ga bol , otok , crvenilo i pečenje . ",0,1
+koji izazivati ili zasluživati mržnja ,0,1
+odbaciti ( dokument ) kao nevažeci ,0,1
+Uništiti ili oštetiti na nasilan način . ,0,1
+"koji karakterisati ili koji pokazivati prihvatanje , slaganje ili uverenost . ",0,1
+koji slediti prihvaćen običaj i pristojnost . ,0,1
+osoba koji ne prihvatati nov ideja ,0,1
+insekt koji imati dva para opnast krilo i legalicu specijalizovan za ubadanje ili probadanje . ,1,0
+proizvesti ili stvoriti proizvod stvoren ljudski ruka . ,0,1
+"faza u psihoseksualnom razvoj kada jesam interes dete koncentrisan na analan regija ; fiksacija u ovaj faza jesam reći dmože da dovesti do urednost , zloba , tvrdoglavost , kompulzivnosti . ",1,0
+postati ljut . ,0,1
+koji jesam pred erupcija ili izbacivati lav ( o vulkan ) ,1,0
+kvalitet onaj ko jesam brižljiv i pažljiv . ,1,0
+usmrtiti namerno i sa predumišljaj . ,0,1
+stanje oštećenosti ili raspad . ,0,1
+"( krivičan prava ) pravnosnažan , osuđujući presuda u krivičan postupak sa dosuđen kazna ",0,1
+Osećati snažan antipatija i odbojnost prema neki . ,0,1
+"biti kakav oštetočina na telo izazvan nasilje , nezgoda ili prelom . ",0,1
+nedostatak briga za dobrobit drugi ,0,1
+pojava promeniti nagore . ,0,1
+"skup koji jesam prazan , koji nem element ",1,0
+( pokretan ) imovina ili novac steći nezakonit ,1,0
+"koji jesam originalan ; jesam produktivan , ne donositi ništa neobično niti sveže . ",0,1
+koji više nemati životan funkcija ( ili bar tako izgledati ) . ,0,1
+"jako osećanje , usmeren prema neki stvaran ili navodni muka . ",0,1
+"proizvesti erupcija i očvršćavanje na zemljin površina ili blizu ona ; odnositi se na riolit , andesit ili bazalt ",1,0
+nanošenje telesni povreda lice koji jesam osuditi za izvršen zločin ,0,1
+Osećanje velik žalost povezati sa gubitak ili lišavanje . ,0,1
+"koji izazivati neprijatnost ; na primer , neprijatan istina ",0,1
+Osećanje mržnja . ,0,1
+"onaj koji se ne moći ukazati poverenje , u koji se ne moći pouzdati ",0,1
+prekinuti nečiji zaposlenje . ,0,1
+kvalitet onaj što jesam teško otkriti ili analizirati . ,0,1
+izazvati šteta na nešto . ,0,1
+koji jesam nezavisan . ,0,1
+Oblačiti se u crn kao znak žalost . ,0,1
+Učiniti ružan . ,0,1
+koji ispoljavati žalost ,0,1
+kvalitet neki ili nešto što jesam važan ili vredan pažnja . ,0,1
+intenzivan ojađenost ,0,1
+koji imati složiti nutricione potreba ; rasti samo na specijalan veštački kultura podloga ,1,0
+bez nada ili skoro bez nada ,0,1
+stanje odsustvo svaki zvuk ,1,0
+osobina onaj što zasluživati poverenje . ,1,0
+ratobornost izazvati stvaran ili pretpostavljen nepravda ( predstaviti kao jedan od smrtan greh ) ,0,1

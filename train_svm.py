@@ -114,7 +114,7 @@ pipe = Pipeline(
 
 
     ],
-    memory="F:\\Temp\\ML_Cache"
+    memory="C:\\Temp\\ML_Cache"
 )
 pipe.set_params(**PAR)
 best_parameters = {

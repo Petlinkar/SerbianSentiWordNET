@@ -106,7 +106,7 @@ pipe = Pipeline(
 
 
     ],
-    memory="F:\\Temp\\ML_Cache"
+    memory="C:\\Temp\\ML_Cache"
 )
 
 best_parameters = {
