@@ -76,8 +76,6 @@ def main():
     sword = sentiment_analyze_df(swordnet)
     definitions_leammatized = pd.merge(sword, definitions_leammatized, on="ID", how="left")
     # save dataframe definitions_leammatized in file srbsentiwordnet_a3.csv in RES_DIR
-    print(definitions_leammatized)
-    print (RES_DIR)
     definitions_leammatized.to_csv(os.path.join(RES_DIR, "srbsentiwordnet_a3.csv"))
     #drop column Vrsta from dataframe definitions_leammatized and save result in dataframe definitions_leammatized
     definitions_leammatized.drop(columns=["Vrsta"], inplace=True)
