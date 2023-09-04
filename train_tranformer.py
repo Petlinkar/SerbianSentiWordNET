@@ -15,6 +15,7 @@ and it may need to be adapted for other use cases.
 
 import os
 import time
+import json
 
 import numpy as np
 import pandas as pd
@@ -53,7 +54,7 @@ class TransformerBlock(layers.Layer):
     1. Multi-head self-attention mechanism,
     2. Position-wise fully connected feed-forward network.
     """
-    def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1):
+    def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1, **kwargs):
         """
         Initializes the TransformerBlock with the parameters to be used.
 
@@ -104,6 +105,10 @@ class TransformerBlock(layers.Layer):
             'rate': self.rate
         })
         return config
+        @classmethod
+        def from_config(cls, config):
+            return cls(**config)
+
     
 class TokenAndPositionEmbedding(layers.Layer):
     """
@@ -112,7 +117,7 @@ class TokenAndPositionEmbedding(layers.Layer):
     to provide the Transformer model with information about the order of the
     tokens in the input sequence.
     """
-    def __init__(self, maxlen, vocab_size, embed_dim):
+    def __init__(self, maxlen, vocab_size, embed_dim, **kwargs):
         """
         Initializes the TokenAndPositionEmbedding with the parameters to be used.
 
@@ -152,6 +157,10 @@ class TokenAndPositionEmbedding(layers.Layer):
             'embed_dim': self.embed_dim
         })
         return config
+        @classmethod
+        def from_config(cls, config):
+            return cls(**config)
+
 
 # Define directories
 ROOT_DIR = ""
@@ -170,6 +179,8 @@ NUM_HEADS = 4  # Number of attention heads
 FF_DIM = 64  # Hidden layer size in feed forward network inside transformer
 N_TRANSFORMER_LAYERS = 1  # Number of transformer layers
 DATASET_ITERATIONS = [0, 2, 4, 6]  # Dataset iterations to process
+
+custom_objects = {'TokenAndPositionEmbedding': TokenAndPositionEmbedding, 'TransformerBlock': TransformerBlock}
 
 # Create directory if not exists
 if not os.path.exists(REP_DIR):
@@ -350,6 +361,96 @@ def save_misclassified(X_test, y_pred_binary, y_test, polarity, iteration):
     # Save the misclassified examples to a CSV file
     misclassified.to_csv(os.path.join(REP_DIR, f"misclassified_{name}"), index=False)
 
+
+
+def save_model(model, encoder, name):
+    """
+    Save the weights, in MOD_DIR folder.
+    using tf format.
+
+    Args:
+        model (keras.Model): The trained model.
+        encoder (tf.keras.layers.TextVectorization): The text endeor layer
+        name (str): The name of the model.
+    """
+    model_path = os.path.join(MOD_DIR, name)
+    model.save_weights(f'{model_path}.ckpt', save_format='tf')
+    #serilize encoeder both cofing and vocab
+    config = encoder.get_config()
+    vocab = encoder.get_vocabulary()
+    #save config and vocab
+    with open(f'{model_path}.json', 'w') as f:
+        json.dump({'config': config, 'vocab': vocab}, f)
+       
+
+def load_model(name):
+    """CReates modeal using create model function 
+    then loads weights from MOD_DIR folder.
+    Args:
+        name (str): The name of the model.
+    Returns:
+        keras.Model: The loaded model.
+    """ 
+    #load encoder
+    model_path = os.path.join(MOD_DIR, name)
+    with open(f'{model_path}.json') as f:
+        data = json.load(f)
+    encoder = tf.keras.layers.TextVectorization.from_config(data['config'])
+    #add vocab to encoder
+    encoder.set_vocabulary(data['vocab'])
+    model = create_model(encoder, N_TRANSFORMER_LAYERS)
+    model_path = os.path.join(MOD_DIR, name)
+    model.load_weights(f'{model_path}.ckpt')
+    return model
+
+
+def debug_model_save(model, encoder, X_test):
+
+    model_name = "transformer_model_test"
+    save_model(model, encoder, model_name)
+    model_loaded = load_model(model_name)
+
+    y_pred = model.predict(X_test)
+    y_pred_loaded = model_loaded.predict(X_test)
+
+    # Use np.allclose for comparing floating point arrays
+    print("y_pred close to y_pred_loaded:", np.allclose(y_pred, y_pred_loaded, atol=1e-5))
+
+    # Compare configurations - this might require more intricate checking for deeply nested configs
+    print("model.get_config() == model_loaded.get_config():", model.get_config() == model_loaded.get_config())
+
+    # Compare weights
+    original_weights = model.get_weights()
+    loaded_weights = model_loaded.get_weights()
+
+
+
+    for i, (w1, w2) in enumerate(zip(original_weights, loaded_weights)):
+        #print(f"Index {i}, type(w1): {type(w1)}, type(w2): {type(w2)}")
+        if w1.dtype == 'object':
+            print(f"Object array w1 at index {i}: {w1}")
+        if w2.dtype == 'object':
+            print(f"Object array w2 at index {i}: {w2}")
+
+        if isinstance(w1, np.ndarray) and isinstance(w2, np.ndarray):
+            #print(f"Index {i}, dtype(w1): {w1.dtype}, dtype(w2): {w2.dtype}")
+            
+            if np.issubdtype(w1.dtype, np.number) and np.issubdtype(w2.dtype, np.number):
+                if not np.isfinite(w1).all() or not np.isfinite(w2).all():
+                    print(f"Non-finite numbers found in weights at index {i}")
+                    
+                # Perform the allclose check only for numerical arrays
+                if not np.allclose(w1, w2, atol=1e-5):
+                    print(f"Arrays at index {i} are not close!")
+                    
+            else:
+                print(f"Skipping non-numerical weights at index {i}, dtypes: {w1.dtype}, {w2.dtype}")
+        else:
+            print(f"One of the weights at index {i} is not a numpy array.")
+
+
+
+
 def main():
     """
     The main function to execute the script.
@@ -380,8 +481,8 @@ def main():
             save_misclassified(X_test, y_pred_binary, y_test, polarity, i)
             # Save the model
             model_name = f"transformer_model_{polarity}_{i}"
-            model_path = os.path.join(MOD_DIR, model_name)
-            model.save(f"{model_path}.tf", save_format='tf')
+            save_model(model, encoder, model_name)
+            #debug_model_save(model, encoder, X_test)
 
 
 

@@ -1,1 +1,1 @@
-Execution Time for Iteration 2: 00:01:12.86
+Execution Time for Iteration 2: 00:00:48.56

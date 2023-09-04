@@ -1,12 +1,14 @@
 Sysnet,NEG,Predicted
 b'Brgljez . ',0,1
 b'\xc4\x8cin konstruisanje ili gra\xc4\x91enje ne\xc5\xa1to . ',0,1
+b'izu\xc4\x8davanje poetski delo ',0,1
 b'ljulj ',0,1
 b'pun ili ozna\xc4\x8den ozloje\xc4\x91enost ili zlovolja ',1,0
+"b'saglasan zakon , prema zakon '",0,1
 b'praviti primedba ili \xc5\xbealba za sebe i ne na sav glas ',0,1
+b'staviti ne\xc5\xa1to u ne\xc5\xa1to ',0,1
 b'okarakterisan prijateljstvo i dobar volja ',0,1
 b'slab sposobnost da se razumeti iskustvo ili profitirati iz on . ',1,0
-b'izuzetno lo\xc5\xa1 ili nezadovoljavaju\xc4\x87i ',1,0
 b'zmijinci ',0,1
 b'peskarica ',0,1
 b'krasuljak ',0,1
@@ -17,43 +19,40 @@ b'ispuniti o\xc4\x8dekivanje . ',0,1
 b'poduhvat koji se preduzimati bez obzir na mogu\xc4\x87 gubitak ili povreda ',1,0
 b'izazvati \xc5\xa1teta na ne\xc5\xa1to . ',1,0
 b'a commercial mix for making a caka ',0,1
+b'u\xc4\x8diniti \xc4\x8dist ili slobodan od greh ili krivica ',0,1
+"b'zaprljati , one\xc4\x8distiti . '",1,0
 b'koji odra\xc5\xbeavati sumornost i smrknutost ',1,0
 b'podesiti za neki poseban funkcija ',0,1
-b'naobla\xc4\x8diti se ',0,1
 b'prav krasta\xc4\x8da . ',0,1
 b'ubijanje \xc4\x8dovek od strana drugi \xc4\x8dovek . ',0,1
-"b'Metvulja , ? horsemint , ? beebalm '",0,1
 b'pavpav ',0,1
 b'iskreno moliti ili tra\xc5\xbeiti ne\xc5\xa1to ',0,1
-b'fistularija ',0,1
-b'AO ',0,1
-b'pollack ',0,1
-b'common European Bird with a shrieking call that nests chiefly about eaves of buildings Or on cliffs ',0,1
+b'kormoran . ',0,1
+b'napraviti litograskim postupak ',0,1
 b'koji nemati neki izrazit kvalitet ili karakteristika . ',0,1
 b'okrutan poslodavac koji od zaposlen tra\xc5\xbeiti da prekomeran raditi . ',1,0
 b'ljudski tvorevina koji jesam neki stvoriti . ',0,1
 b'proizvoditi suvi\xc5\xa1e . ',0,1
 b'koji naru\xc5\xa1avati princip dobra i zlo . ',1,0
-b'strastan poljubac ',0,1
+b'kg ',0,1
 b'postati gora . ',1,0
 b'smestiti privremeno . ',0,1
 b'utensils made with copper ',0,1
+b'ne spavati . ',0,1
 b'\xc4\x8cin prljanje ne\xc5\xa1to . ',1,0
 b'burnica ',0,1
 b'babun . ',0,1
+b'virus koji jesam pathogen \xc5\xbeivotinja ',0,1
 b'BD ',0,1
 b'Jasen . ',0,1
 b'Pri\xc4\x8dati na besposlen ili neobavezan na\xc4\x8din sa element sumnja ili bez dovoljno razlog da se do\xc4\x87i do zaklju\xc4\x8dak . ',1,0
 b'odbiti s gnu\xc5\xa1anje ',1,0
 "b'koji jesam okarakterisati mra\xc4\x8dan , misti\xc4\x8dan i groteska '",1,0
+b'pomaknuti ili povu\xc4\x87i tako da pokriti ili otkriti ne\xc5\xa1to . ',0,1
 b'O\xc5\xa1tri kraj . ',0,1
 "b'koji karakeri\xc5\xa1e ili koji pokazivati odbijanje , poricanje ili suprotstavljanje ; koji nemati pozitivan svojstvo . '",1,0
 b'Svra\xc4\x8dci . ',0,1
-b'skinkovi ',0,1
-b'a low area where the Land is saturated with water ',0,1
-b'stanje kada jesam u\xc4\x8diniti prekr\xc5\xa1aj . ',1,0
 b'koji jesam pred erupcija ili izbacivati lav ( o vulkan ) ',1,0
-b'koji s ne pokretati . ',1,0
 b'ose\xc4\x87anje naklonjenost ',0,1
 b'stanje stvar koji jesam skoro izvan ne\xc4\x8diji mogu\xc4\x87nost da jesam re\xc5\xa1iti i zahtevati velik napor da se re\xc5\xa1iti ili prevazi\xc4\x87i . ',1,0
 b'zabraniti zakon ili zvani\xc4\x8dno usvojen pravilo ',0,1
@@ -61,21 +60,22 @@ b'vilinski konjica i ? ',0,1
 b'bolan ose\xc4\x87aj koji proizlaziti iz svest o nedovoljnost ili krivica ',1,0
 b're\xc4\x87i usput ',0,1
 b'promena polo\xc5\xbeaj nagore ',0,1
+b'na ',0,1
 "b'loboda , ? ? ? '",0,1
 b'KE ',0,1
 b'zujare ',0,1
 b'lo\xc5\xa1e mirisati ',1,0
-b'rezati pila . ',0,1
 b'\xc4\x8cin napad na neprijatelj . ',0,1
 b'Aguti i ? ? ',0,1
+b'koji ose\xc4\x87ati ili izazivati radost ',0,1
 b'moruzge ',0,1
+"b'onaj \xc5\xa1to jesam u saglasnost s norma ili \xc5\xa1to \xc4\x8diniti norma ( standard , socijalan norma , ird ) . '",0,1
 "b'odbojno , vrlo neprijateljski pona\xc5\xa1anje '",1,0
 b'U\xc4\x8diniti ru\xc5\xbean . ',1,0
 b'pore\xc4\x91ati ne\xc5\xa1to kao nizak ',0,1
+b'ose\xc4\x87anje naklonost prema neki ili ne\xc4\x87emu dobar ',0,1
 b'bukavac ',0,1
 b'\xc4\x8depac ',0,1
-"b'of Or concerning the faca ; "" a facial massage "" ; "" facial hair "" ; "" facial expression "" '",0,1
-b'bivati bolje . ',0,1
 b'dati oblik ili forma ne\xc5\xa1to . ',1,0
 b'stanje kada jesam neki prosperitetan i uspe\xc5\xa1an . ',0,1
 b'radnik koji jesam najamiti da obaviti posati . ',0,1
@@ -83,24 +83,21 @@ b'stanje opu\xc5\xa1tenost i neose\xc4\x87anja bol ',0,1
 b'nameran \xc4\x8din oduzimanje ',0,1
 b'spomenak ',0,1
 b'ZW ',0,1
-b'razlikovni karakteristika ili atribut ',0,1
 b'Ose\xc4\x87anje samopo\xc5\xa1tovanje i li\xc4\x8dan vrednost . ',0,1
 b'pratiti ili otpratiti ',0,1
-b'po\xc5\xbeeleti dobrodo\xc5\xa1lica koji ; pozdraviti koji na dolazak ',0,1
-b'slepa\xc5\xa1i ',0,1
-b'snap beans with yellow pods ',0,1
 b'tra\xc5\xbeiti ili tragati ',0,1
 b'u koji nem \xc5\xbeivot . ',1,0
 b'koji jesam veseo niti izazivati veselje ',1,0
 b'koji mo\xc4\x87i da se desiti ili da postojati . ',0,1
 b'\xc5\xa0ljuke . ',0,1
+b'zmijuljice ',0,1
 b'ibis . ',0,1
-b'kvalitet onaj \xc5\xa1to ne mo\xc4\x87i da postojati ili raditi u uskla\xc4\x91en kombinacija . ',1,0
 b'Poku\xc5\xa1aj da se za sebe dobiti li\xc4\x8dan priznanje ( posebno neprihvatljiv sredstvo ) . ',1,0
 b'zob . ',0,1
 b'kvalitet onaj ko jesam bri\xc5\xbeljiv i pa\xc5\xbeljiv . ',0,1
 b'objaviti sudski presuda ( neki ) ',1,0
 b'\xc5\xbdena-doma\xc4\x87in . ',0,1
+b'veseo ose\xc4\x87anje ',0,1
 b'ratobornost izazvati stvaran ili pretpostavljen nepravda ( predstaviti kao jedan od smrtan greh ) ',1,0
 b'\xc5\xbeirafa ',0,1
 b'promeniti u suprotnost . ',0,1
@@ -108,49 +105,51 @@ b'ose\xc4\x87ati zadovoljstvo zbog ne\xc5\xa1to ',0,1
 b'stimulans sa nepo\xc5\xbeeljan posledica ',1,0
 b'\xc4\x8cin procenjivanje ili prosu\xc4\x91ivanje . ',0,1
 b'postati ljut . ',1,0
+"b'kvalitet koji \xc4\x8diniti daa jesam ne\xc5\xa1to po\xc5\xbeeljan , vredan ili korisno . '",0,1
+b'osoba koji nadgledati ili jesam zadu\xc5\xbeiti za ne\xc5\xa1to . ',0,1
 b'stanje u koji jesam osoba krepak i nem telesni i du\xc5\xa1evan bolest . ',0,1
 b'izuzetno nelagodan ',1,0
 b'proces zatvaranje ( kao u kapsula ) ',0,1
 b'dr\xc5\xbeanje do moralan princip ',1,0
+b'slon ',0,1
 b'ispuniti slutnja ili uznemirenost ; izazvati neprijatan iznena\xc4\x91enost ',0,1
+"b'stanje spajanje , povezanost . '",0,1
 b'U\xc4\x8diniti goreti . ',1,0
-b'vest koji jesam upravo pristignuti ',0,1
 b'nadmo\xc4\x87an ili povoljan polo\xc5\xbeaj ',0,1
 b'razmena dobro za dogovoren suma novac . ',1,0
 b'podarka ',0,1
-b're\xc5\xbeuha ',0,1
 "b'koji jesam vlik po koli\xc4\x8dina , broj ili stepen . '",1,0
-b'komar\xc4\x8da ',0,1
 b'usisati u sebe ',0,1
 b'politika usvojen platforma koji politi\xc4\x8dki partija ',0,1
-b'kostruisati ili strukturisati iznova ',0,1
+b'koji zaslu\xc5\xbeivati sa\xc5\xbealjenje ili podsticati na sa\xc5\xbealjenje ',1,0
 b'sastavljati od komponenta ili delovati . ',1,0
 b'koji ose\xc4\x87ati ili ispoljavati velik uzbu\xc4\x91enje ili zainteresovanost ',0,1
 b'bukavac ',0,1
+b'\xc4\x8cin pribavljanje ne\xc5\xa1to . ',0,1
 b'modni elita ',0,1
-b'obestan i uzbudljiv poduhvat ( ne nu\xc5\xbeno zakonit ) ',1,0
 b'okoristiti se kakav mogu\xc4\x87nost bez obzir na posledica za drugi ',1,0
 b'Primog . ',0,1
-b'\xc4\x8duga ; ? hemlock fir ; ? hemlock spruce ',0,1
+b'spajanje ili vezivanje \xc5\xa1av ',0,1
+b'transportovati roba . ',0,1
 "b'napraviti nered , uni\xc5\xa1titi . '",1,0
 b'na nizak nivo po rang ili zna\xc4\x8daj ',1,0
+b'strana koji jesam na kraj i koji se obi\xc4\x8dno ne viditi . ',0,1
+b'U\xc4\x8diniti dobar . ',0,1
 b'Ose\xc4\x87aj koji se do\xc5\xbeivljavati u o\xc4\x8dekivanje neki odre\xc4\x91enog bol ili opsasnosti i obi\xc4\x8dno ga pratiti \xc5\xbeelja da se pobe\xc4\x87i . ',1,0
 b'ukloniti posve\xc4\x87enost sa osoba ili objekt . ',1,0
 b'biti pa\xc5\xbeljiv ili siguran da se ne\xc5\xa1to u\xc4\x8diniti ; uveriti se u ne\xc5\xa1to ',0,1
 b'velik ( glavobolja ) . ',1,0
 b'stanje u koji se malo novac i materijalan dobro . ',1,0
+b'\xc4\x8cin opisivanje ne\xc5\xa1to . ',0,1
 b'lojka ',0,1
 b'\xc5\xbdohari i ? ',0,1
 b'svaki odstupanje od zdrav ili normanog stanje ',1,0
-b'European kinglet with a black-bordered yellow crown patch ',0,1
-b'the basic unit of money in the Congo ',0,1
 b'osoba koji jesam aktivan u politika . ',0,1
 b'kreketu\xc5\xa1e ',0,1
-"b'bumbar , ? ? '",0,1
 b'koji ne pripadati snaga sopstven zemlja ili snaga saveznik ',1,0
+b'predati neki ili ne\xc5\xa1to drugi . ',0,1
 b'koji drugi \xc5\xbeeti zlo ; koji nastajati iz velik zloba ili mr\xc5\xbenja . ',1,0
 b'\xc4\x8de\xc5\xa1lika ',0,1
 b'nesposobnost osoba da se setiti ili uraditi onaj \xc5\xa1to obi\xc4\x8dno mo\xc4\x87i ; \xc4\x8desto uzrokovati emoionalnom napetost . ',1,0
 b'biti koji neprekidan odse\xc4\x8dak vreme koji uklju\xc4\x8divati i trenutak govor ',0,1
-b'stanje u koji \xc4\x8dovek ne mo\xc4\x87i da funkcionisati normalno i bez bol . ',1,0
 b'izuzetno uvredljiv za moral ; koji izazivati u\xc5\xbeas ',1,0
