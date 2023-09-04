@@ -5,11 +5,11 @@ Created on Wed Jun 15 15:06:18 2022
 @author: "Petalinkar Saša"
 
 NLTK interface for Serbian Wordnet
+loaded from XML file 
 
- loaded from XML file 
-
-
+Last modified on Wed Jun 15 15:06:18 2022
 """
+import os
 from xml.etree.ElementTree import Element, SubElement
 import xml.etree.cElementTree as ET
 from nltk.corpus.reader.wordnet import Lemma
@@ -116,7 +116,15 @@ class SrbLemma(Lemma):
             return ret
         self.__annotations__ = get_single("LNOTE")
         self._sense = get_single("SENSE")
-        
+    def xml(self):
+        """
+        Return XML representation of lemma
+        """
+        xmlLemma = Element("LITERAL")
+        xmlLemma.text = self._name
+        xmlLemma.append(SubElement(xmlLemma, "SENSE"))
+        xmlLemma.append(SubElement(xmlLemma, "LNOTE"))
+        return xmlLemma    
     def __repr__(self):
         return "<SrbLemma name:%s synset:%s>" % (self._name, self._synset)
 
@@ -317,7 +325,7 @@ class SrbSynset(Synset):
         self._definition = parser (self._definition)
     def is_definition_in_serbain(self):
         """
-        Checks if defintion of synste is in Serbain.
+        Checks if defintion of synste is in Serbian.
         
         Some sysnets have defintion temorary copied from Prinston WN. 
         That defiention start with "?"
@@ -340,7 +348,7 @@ class SrbSynset(Synset):
         Parameters
         ----------
         estimators : (sklearn.base.BaseEstimator, sklearn.base.BaseEstimator)
-            A tuple of espimators, first for postive, second for negative 
+            A tuple of estimators, first for positive, second for negative 
         preprocessor: function
             A pretprocesor for deinition before appling ML 
 
@@ -354,11 +362,56 @@ class SrbSynset(Synset):
         p = est_POS.predict(tekst)
         n = est_NEG.predict(tekst)
         return (p*(1-n), n(1-p))
-        
+    def xml(self):
+        """Returns xml representation of synset
+        same as one used to create synset
+        """
+        xmlSynset = Element("SYNSET")
+        xmlSynset.append(SubElement(xmlSynset, "ID"))
+        xmlSynset.find("ID").text = self._ID
+        xmlSynset.append(SubElement(xmlSynset, "POS"))
+        xmlSynset.find("POS").text = self._POS
+        xmlSynset.append(SubElement(xmlSynset, "STAMP"))
+        xmlSynset.find("STAMP").text = self._stamp
+        xmlSynset.append(SubElement(xmlSynset, "DEF"))
+        xmlSynset.find("DEF").text = self._definition
+        xmlSynset.append(SubElement(xmlSynset, "NL"))
+        xmlSynset.find("NL").text = self._NL
+        xmlSynset.append(SubElement(xmlSynset, "BCS"))
+        xmlSynset.find("BCS").text = self._BCS
+        xmlSynset.append(SubElement(xmlSynset, "SNOTE"))
+        xmlSynset.find("SNOTE").text = self._SNOTE
+        xmlSynset.append(SubElement(xmlSynset, "DOMAIN"))
+        xmlSynset.find("DOMAIN").text = self._domain
+        xmlSynset.append(SubElement(xmlSynset, "SENTIMENT"))
+        xmlSynset.find("SENTIMENT").append(SubElement(xmlSynset.find("SENTIMENT"), "POSITIVE"))
+        xmlSynset.find("SENTIMENT").find("POSITIVE").text = str(self._sentiment[0])
+        xmlSynset.find("SENTIMENT").append(SubElement(xmlSynset.find("SENTIMENT"), "NEGATIVE"))
+        xmlSynset.find("SENTIMENT").find("NEGATIVE").text = str(self._sentiment[1])
+        xmlSynset.append(SubElement(xmlSynset, "SYNONYM"))
+        for lem in self._lemmas:
+            xmlSynset.find("SYNONYM").append(lem.xml())
+        for rel in self._relwn5:
+            for ID in self._relwn5[rel]:
+                xmlSynset.append(SubElement(xmlSynset, "ILR"))
+                xmlSynset.find("ILR").text = ID
+                xmlSynset.find("ILR").append(SubElement(xmlSynset.find("ILR"), "TYPE"))
+                xmlSynset.find("ILR").find("TYPE").text = rel
+        for us in self._examples:
+            xmlSynset.append(SubElement(xmlSynset, "USAGE"))
+            xmlSynset.find("USAGE").text = us
+        return xmlSynset 
+    def __repr__(self):
+        return "<SrbSynset ID:%s, lemmas:%s, definition:%s>" % (self._ID, ",".join(self._lemma_names), self._definition)
+                
     def __str__(self):
-        return "Synset: ID is %s" % (self._ID)
+        return "Synset: ID is %s, lemmas are %s, definition is %s" % (self._ID, self._lemma_names, self._definition)
     def __hash__(self):
         return hash(self._ID)
+    def __eq__(self, other):
+        if not isinstance(other, SrbSynset):
+            return False
+        return self._ID == other._ID
     
 # =============================================================================
 # Serbian Wornet Reader class
@@ -369,6 +422,23 @@ class SrbWordNetReader(XMLCorpusReader):
     """Reader for Serbina Wornet based on XML reader."""
 
     def __init__(self, root, fileids, wrap_etree=False):
+        """
+        Initilize Wordnet reader
+
+        Parameters
+        ----------
+        root : String
+            Path to the folder where file is located.
+        fileids : String    
+            Name of the file.
+        wrap_etree : Boolean, optional
+            If true, wrap the ElementTree object in an XMLCorpusView. The default is False.
+        
+        Returns
+        ------
+        None.
+
+        """
         super().__init__(root, fileids, wrap_etree)
         self._path = fileids
 #       Here we initilize  dictonary of synsets, since all synsets in
@@ -384,6 +454,29 @@ class SrbWordNetReader(XMLCorpusReader):
         self._synset_rel = dict()
 
         self.load_synsets()
+    def save_wordnet_as_xml_file(self, root, fileids):
+        """
+        Save wordnet as xml file
+
+        Parameters
+        ----------
+        root : String
+            Path to the folder where file will be saved.
+        fileids : String
+            Name of the file.
+
+        Returns
+        -------
+        None.
+
+        """
+        xmlRoot = Element("WN")
+        xmlRoot.append(SubElement(xmlRoot, "SYNSET"))
+        for ID in self._synset_dict:
+            xmlRoot.find("SYNSET").append(self._synset_dict[ID].xml())
+        tree = ET.ElementTree(xmlRoot)
+        tree.write(os.path.join(root, fileids))
+
     def synset_from_ID(self, ID):
         """
         Rerurn synster by its unique ID string from wordnet
@@ -404,6 +497,20 @@ class SrbWordNetReader(XMLCorpusReader):
         else:
             return None
     def synset_from_name(self, name):
+        """
+        Rerurns synstet by its name string from wordnet
+
+        Parameters
+        ----------
+        name : String
+            Name of the synset.
+
+        Returns
+        -------
+        SrbSynset
+            Synst with required name.
+
+        """
         ID = self._synset_name[name]
         return self._synset_dict[ID]
 
@@ -424,7 +531,9 @@ class SrbWordNetReader(XMLCorpusReader):
                 ret.append(syn)
         return ret
     def load_synsets(self):
-
+        """
+        Load all synsets from XML file
+        """
         for i, syn in enumerate(self.xml()):
             try:
                 pom = SrbSynset(syn, self)
@@ -449,7 +558,10 @@ class SrbWordNetReader(XMLCorpusReader):
             
 
     def get_relations_types(self):
-            return self.rel_types            
+        """
+        Returns all types of relations in Wordnet.
+        """
+        return self.rel_types            
     def morphy(self, form, pos=None):
         """
         Return the base form of the given word form and part-of-speech tag using the 
@@ -484,6 +596,24 @@ class SrbWordNetReader(XMLCorpusReader):
         else:
             return None
     def _morphy(self, form, pos):
+        """
+        Return the base form of the given word form and part-of-speech tag using the
+        loaded lexicon.
+
+        Parameters
+        ----------
+        form : str
+            The word form to be analyzed.
+        pos : str
+            The part-of-speech tag for the given word form.
+
+        Returns
+        -------
+        list of str
+            The base form of the given word form based on the morphological analysis.
+
+        """
+
         if self._slex is None:
             return []
         else:
@@ -516,7 +646,10 @@ class SrbWordNetReader(XMLCorpusReader):
         return  pd.DataFrame(syns_list)
         
     def __repr__(self):
-        return str(self._synset_dict)
+        return "<SrbWordNetReader with %s synsets>" % (len(self._synset_dict))
+    def __str__(self):
+        return "SrbWordNetReader with %s synsets" % (len(self._synset_dict))
+    
     def load_lexicon (self, path):
         """
         Load a lexicon from a file located at `path`.
@@ -537,7 +670,322 @@ class SrbWordNetReader(XMLCorpusReader):
         self._slex = pd.read_csv(path, sep = "\t| ", 
                    on_bad_lines='skip', names=["Term", "POS", "Lemma"],
                    engine='python')
+    def load_new_sentiment(self, cvs_file):
+        """
+        Load new sentiment from cvs file
+
+        Parameters
+        ----------
+        cvs_file : String
+            Path to the file containing the sentiment. The file is expected to be
+            tab-separated or space-separated, with three columns named "ID",
+            "POS", and "NEG". I can have other colamnt thaty will be ignored.
+
+        Returns
+        -------
+        None.
+
+        """
+        try:
+            sentiment = pd.read_csv(cvs_file, sep = "\t| ", 
+                    on_bad_lines='skip', names=["ID", "POS", "NEG"],
+                    engine='python')        
+            for index, row in sentiment.iterrows():
+                self._synset_dict[row["ID"]]._sentiment = (row["POS"], row["NEG"])
+        except Exception as err:
+            print(err)
+            print("Error in file", cvs_file)
+            print("File should be tab separated with columns ID, POS, NEG")
+            print("ID is synset ID")
+            print("POS is positive sentiment")
+            print("NEG is negative sentiment")
+            print("Other columns will be ignored")
+
+class SrbWordNetReaderUserInterface():
+    """"
+    Class that provides user interface for Serbian Wordnet
+    """
+    def __init__(self):
+        self._swn = None
+    def load_wordnet(self):
+        """
+        Load wordnet from xml file
+
+        Returns
+        -------
+        None.
+
+        """
+        try:
+            path = input("Enter path to the folder where file is located:") 
+            file = input("Enter name of the file:") 
+            self._swn = SrbWordNetReader(path, file)
+        except Exception as err:
+            print(err)
+            print("Error in file", file)
+            print("File should be xml file with Serbian Wordnet")
+    def load_lexicon(self):
+        """
+        Load lexicon from file
+
+                Returns
+        -------
+        None.
+
+        """
+        if self._swn is None:
+            print("Wordnet not loaded")
+            return
+        try:
+            path= input("Enter path to the file:")
+            self._swn.load_lexicon(path)
+        except Exception as err:
+            print(err)
+            print("Error in file", file)
+            print("File should be csv file with Serbian lexicon")
+    
+    def load_new_sentiment(self):
+        """
+        Load new sentiment from cvs file
+
+        Returns
+        -------
+        None.
+
+        """
+        if self._swn is None:
+            print("Wordnet not loaded")
+            return
+        try:
+            path= input("Enter path to the file:")
+            self._swn.load_new_sentiment(path)
+        except Exception as err:
+            print(err)
+            print("Error in file", file)
+            print("File should be csv file with new sentiment")
+            print("File should be tab separated with columns ID, POS, NEG")
+            print("ID is synset ID")
+            print("POS is positive sentiment")
+            print("NEG is negative sentiment")
+            print("Other columns will be ignored")
+
+    def save_wordnet(self):
+        """
+        Save wordnet as xml file
+
+        Returns
+
+        -------
+        None.
+
+        """
+        if self._swn is None:
+            print("Wordnet not loaded")
+            return
+        path = input("Enter path to the folder where file will be saved:") 
+        file = input("Enter name of the file:") 
+        try:
+            self._swn.save_wordnet_as_xml_file(path, file)
+        except Exception as err:
+            print(err)
+            print("Error in file", file)
+    def sentiment_analyze(self):
+        """
+        Create table with ID, sentiment, defintions, lemmas, and part of speech for further analysis
+        of all synsets in SrbWordNet and saves the result in a csv file 
+
+        Returns
+        -------
+        None.
+
+        """
+        path = input("Enter path to the folder where file will be saved:") 
+        file = input("Enter name of the file:") 
+        if self._swn is None:
+            print("Wordnet not loaded")
+            return
         
-#".\\resources\\lexiconPOSlat"
+        df = self._swn.sentiment_df()
+        df.to_csv(os.path.join(path, file))
+    def get_synsets(self):
+        """
+        Asks user for word, and optionaly part of speech
+        If there is lexicon loaded, it will try to find base form of word
+        Note that part of speech is optinal, user may nor provide it
+        Word is not, and should be checked before call
+        Get all synsets from Wordnet that contain that word
+        Print all synsets with their ID, definition, 
+        id of related synsetes by type of relation
+        lemmas and sentiment       
+        Returns
+        -------
+        None.
+
+        """
+        if self._swn is None:
+            print("Wordnet not loaded")
+            return
+        word = input("Enter word:")
+        pos = input("Enter part of speech (optional):")
+        #check if pos is valid
+        if pos not in POS_LIST:
+            pos = None
+        if self._swn._slex is not None:
+            word = self._swn.morphy(word, pos)
+        if word is None:
+            print("Word not found")
+            return
+        synsets = self._swn.synsets(word, pos)
+        if len(synsets) == 0:
+            print("No synsets found")
+            return
+        for syn in synsets:
+            print(f"Synset: {syn.ID()}, Definition {syn.definition()}, {syn._sentiment}")
+            print("Lemmas:", syn.lemma_names())
+            print("Relations:")
+            for rel in syn._relwn5:
+                print(rel, syn._relwn5[rel])
+            print("--------------------------------------------------")
+
+    def get_synset_by_ID(self):
+        """
+        Asks user for ID of synset
+        Get synset from Wordnet with that ID
+        Print synset with its ID, definition, lemmas
+        id f relation by type  and sentiment       
+        Returns
+        -------
+        None.
+
+        """
+        if self._swn is None:
+            print("Wordnet not loaded")
+            return
+        ID = input("Enter ID:")
+        synset = self._swn.synset_from_ID(ID)
+        if synset is None:
+            print("Synset not found")
+            return
+        print(f"Synset: {synset.ID()}, Definition {synset.definition()}, {synset._sentiment}")
+        print("Lemmas:", synset.lemma_names())
+        print("Relations:")
+        for rel in synset._relwn5:
+            print(rel, synset._relwn5[rel])
+        print("--------------------------------------------------")
+    def get_synset_by_name(self):
+        """
+        Asks user for name of synset
+        Get synset from Wordnet with that name
+        Print synset with its ID, definition, lemmas
+        id f relation by type  and sentiment       
+        Returns
+        -------
+        None.
+
+        """
+        if self._swn is None:
+            print("Wordnet not loaded")
+            return
+        name = input("Enter name:")
+        synset = self._swn.synset_from_name(name)
+        if synset is None:
+            print("Synset not found")
+            return
+        print(f"Synset: {synset.ID()}, Definition {synset.definition()}, {synset._sentiment}")
+        print("Lemmas:", synset.lemma_names())
+        print("Relations:")
+        for rel in synset._relwn5:
+            print(rel, synset._relwn5[rel])
+        print("--------------------------------------------------")
+    def termiante(self):
+        """
+        Terminate program
+
+        Returns
+        -------
+        None.
+
+        """
+        print("Terminating")
+        exit(0)
+    def print_menu(self):
+        """
+        Print menu for user
+        
+        Returns
+        ------- 
+        None.
+        """
+        print("1. Load Wordnet")
+        print("2. Load lexicon")
+        print("3. Load new sentiment")
+        print("4. Save Wordnet")
+        print("5. Sentiment analyze")
+        print("6. Get synsets")
+        print("7. Get synset by ID")
+        print("8. Get synset by name")
+        print("9. Terminate")
+    def run(self):
+        """
+        Run user interface
+
+        Returns 
+        -------
+        None.
+        """
+        while True:
+            self.print_menu()
+            #print wordent filename and path if esist or imform that it is not loaded
+            if self._swn is None:
+                print("Wordnet not loaded")
+            else:
+                print("Wordnet loaded from file", self._swn._path)
+            #print lexicon filename and path if esist or imform that it is not loaded
+            if self._swn is None:
+                print("Lexicon not loaded")
+            else:
+                print("Lexicon loaded from file", self._swn._slex)
+            try:
+                option = int(input("Enter option:"))
+            except Exception as err:
+                print(err)
+                print("Invalid option")
+                continue
+            if option == 1:
+                self.load_wordnet()
+            elif option == 2:
+                self.load_lexicon()
+            elif option == 3:
+                self.load_new_sentiment()
+            elif option == 4:
+                self.save_wordnet()
+            elif option == 5:
+                self.sentiment_analyze()
+            elif option == 6:
+                self.get_synsets()
+            elif option == 7:
+                self.get_synset_by_ID()
+            elif option == 8:
+                self.get_synset_by_name()
+            elif option == 9:
+                self.termiante()
+            else:
+                print("Invalid option")
+                continue
+            print("--------------------------------------------------")
+            print("--------------------------------------------------")
+            print("--------------------------------------------------")
+        
+def main():
+    """
+    Main function
+    """
+    ui = SrbWordNetReaderUserInterface()
+    ui.run()
+if __name__ == "__main__":
+    main()
+
+
+
 
 
