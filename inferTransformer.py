@@ -1,21 +1,10 @@
-#inferRNN
-
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jun  1 12:00:00 2020
-Last modified on Mon Jun  1 12:00:00 2020
-Author: Petalinkar Saša
-Description: Script for sentiment analysis of all synsets in SrbWordNet
-unsing RNN model and saving the result in a csv file
-""" 
-
 from srpskiwordnet import SrbWordNetReader
 import pandas as pd
 import os
 import tensorflow as tf
+import numpy as np
 
-
-
+from train_tranformer import load_model, evaluate_model, load_and_preprocess_data, write_report, save_misclassified
 def sentiment_analyze_df(swn):
     """
     Function that returns a dataframe with sentiment analysis of all synsets in SrbWordNet
@@ -32,45 +21,39 @@ def sentiment_analyze_df(swn):
         syns_list.append(el)
     return pd.DataFrame(syns_list)
 
-
-# Define constants
 ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
 MOD_DIR = os.path.join(ROOT_DIR, "ml_models")
-POLARITY = ["POS", "NEG"]
+TRAIN_DIR = os.path.join(ROOT_DIR, "train_sets")
+REP_DIR = os.path.join(ROOT_DIR, "reports", "Transformer")
+
+# dictionaty with custom layers
 DATASET_ITERATIONS = [0, 2, 4, 6]  # Dataset iterations to process
+SEED = 42
+np.random.seed(SEED)
+tf.random.set_seed(SEED)
+
 
 def main():
     """
-    Function that performs sentiment analysis of all synsets in SrbWordNet and saves the result in a csv file
-    :return: None
+    The main function to execute the script.
     """
+
     # load the file wnsrp30.xml and create a SrbWordNetReader object from RES_DIR
     swordnet = SrbWordNetReader(RES_DIR, "wnsrp30.xml") 
     # load the file definicije_lematizone.csv and create a dataframe from RES_DIR
     definitions_leammatized = pd.read_csv(os.path.join(RES_DIR, "definicije_lematizone.csv"), index_col=0)
-    """
-    Sample of that file 
-    ,ID,Definicija
-    0,ENG30-03574555-n,zgrada u koji se nalaziti organizacioni jedinica neki grana javan poslovanje 
-    1,ENG30-07810907-n,pripremljen dodatak jela za poboljšanje ukus 
-    2,ENG30-00721431-n,"u nečiji prilika , mogućnost "
-    3,ENG30-00473799-v,ostati jesam još samo da se doterati neki finesa u igra plaviti . 
-    """
     # replace all na in column Definicija with empty string
     definitions_leammatized["Definicija"].fillna("", inplace=True)
-
-    # Repeat the process for each dataset iteration and polarity
     for i in DATASET_ITERATIONS:
-        for polarity in POLARITY:
-            model_folder_name = f"RNN_model_{polarity}_{i}.tf"
-            model_path = os.path.join(MOD_DIR, model_folder_name)
-            model =tf.keras.models.load_model(model_path)
-            # infer from columan Definicija and save result in column polarity_i in dataframe definitions_leammatized
+
+        for polarity in ["POS", "NEG"]:
+            _, _, X_test, y_test = load_and_preprocess_data(polarity, i)
+            model_name = f"transformer_model_{polarity}_{i}"
+            model = load_model(model_name)
             definitions_leammatized[f"{polarity}_{i}"] = model.predict(definitions_leammatized["Definicija"])
         # apply corection to polarity columns in dataframe definitions_leammatized pos_i = pos_i * (1 - neg_i) and neg_i = neg_i * (1 - pos_i)
         # and save result in column polarity_i in dataframe definitions_leammatized
-        # Create temporary columns to store the original values
         definitions_leammatized[f"TEMP_POS_{i}"] = definitions_leammatized[f"POS_{i}"]
         definitions_leammatized[f"TEMP_NEG_{i}"] = definitions_leammatized[f"NEG_{i}"]
 
@@ -91,11 +74,11 @@ def main():
     # and save result in dataframe definitions_leammatized
     sword = sentiment_analyze_df(swordnet)
     definitions_leammatized = pd.merge(sword, definitions_leammatized, on="ID", how="left")
-    # save dataframe definitions_leammatized in file srbsentiwordnet_a3.csv in RES_DIR
-    definitions_leammatized.to_csv(os.path.join(RES_DIR, "srbsentiwordnet_a3.csv"))
+    # save dataframe definitions_leammatized in file srbsentiwordnet_a4.csv in RES_DIR
+    definitions_leammatized.to_csv(os.path.join(RES_DIR, "srbsentiwordnet_a4.csv"))
     #drop column Vrsta from dataframe definitions_leammatized and save result in dataframe definitions_leammatized
     definitions_leammatized.drop(columns=["Vrsta"], inplace=True)
-    # save dataframe definitions_leammatized in file srbsentiwordnet3.csv in RES_DIR
-    definitions_leammatized.to_csv(os.path.join(RES_DIR, "srbsentiwordnet3.csv"))
+    # save dataframe definitions_leammatized in file srbsentiwordnet4.csv in RES_DIR
+    definitions_leammatized.to_csv(os.path.join(RES_DIR, "srbsentiwordnet4.csv"))
 if __name__ == "__main__":
     main()

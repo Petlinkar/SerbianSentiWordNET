@@ -36,6 +36,10 @@ class TransformerBlock(layers.Layer):
         })
         return config
 
+        @classmethod
+        def from_config(cls, config):
+            return cls(**config)
+
 # Create a simple model using only the TransformerBlock layer
 model_transformer_block = Sequential([
     layers.Input(shape=(None, 64)),  # Dummy input shape
