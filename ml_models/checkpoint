@@ -1,2 +1,2 @@
-model_checkpoint_path: "transformer_model_test.ckpt"
-all_model_checkpoint_paths: "transformer_model_test.ckpt"
+model_checkpoint_path: "transformer_model_NEG_6.ckpt"
+all_model_checkpoint_paths: "transformer_model_NEG_6.ckpt"

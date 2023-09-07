@@ -448,6 +448,21 @@ def debug_model_save(model, encoder, X_test):
         else:
             print(f"One of the weights at index {i} is not a numpy array.")
 
+#function that makes a prototype of model using all constants, identical to one in main
+#just without adapting encoder. This is used to get model summary and graph
+#both are saved in reports folder
+def create_model_prototype():
+    """
+    Create and compile the protype of transformer model used in this script.
+    """
+    encoder = tf.keras.layers.TextVectorization(max_tokens=VOCAB_SIZE, output_mode="int")
+    model_prototype = create_model(encoder, N_TRANSFORMER_LAYERS)
+    model_prototype.summary()
+    #save summary
+    with open(os.path.join(REP_DIR, 'model_summary.txt'), 'w') as f:
+        model_prototype.summary(print_fn=lambda x: f.write(x + '\n'))
+    tf.keras.utils.plot_model(model_prototype, to_file=os.path.join(REP_DIR, 'model.png'), show_shapes=True, show_layer_names=True)
+
 
 
 
@@ -457,7 +472,7 @@ def main():
     """
     # Record the start time for the total execution
     total_start_time = time.time()
-
+    create_model_prototype()
     # Repeat the process for each dataset iteration and polarity
     for i in DATASET_ITERATIONS:
         # Record the start time for this iteration
