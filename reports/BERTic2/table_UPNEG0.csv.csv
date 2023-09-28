@@ -1,38 +1,28 @@
 X,Predicted,Real
-izgubiti svaku nadu,1,0
-"Odgovor telesnog tkiva na povredu ili nadržaj; karakteriše ga bol, otok, crvenilo i pečenje.",0,1
-osoba koja ne prihvata nove ideje,0,1
-veoma odbojan,0,1
-ponašanje koje nije u skladu sa prihvaćenim standardima,1,0
-izneti optužujuću tvrdnju,1,0
-"Koji nije originalan; nije produktivan, ne donosi ništa neobično niti sveže.",0,1
-smanjenje u veličini organa usled bolesti ili nekorišćenja.,0,1
-intenzivna ojađenost,0,1
-svojstvo onoga kome nedostaje živost,0,1
-"koji izaziva iznenađenje, čuđenje ili zadivljenost",0,1
-stanje bez oštećenja ili propadanja,1,0
-Načiniti nekoga besnim.,1,0
-Učiniti slabim.,1,0
-Koji više nema životne funkcije (ili bar tako izgleda).,0,1
-Nedostatak darežljivosti; nesklonost da se da novac.,1,0
-"Ono što nije lako, zahteva veliki fizički ili mentalni napor da bi se ostvarilo. razumelo ili izdržalo.",0,1
+"Završiti pre kraja, kao računarski proces, misiju itd.",0,1
+Sumnjati ili izražavati sumnjičave spekulacije.,1,0
+"Lišiti se, okaniti se čega, odbaciti.",1,0
+Simbol sramote i nečasti.,1,0
+Tih neprekidan nerazumljiv zvuk; obično ga prati kretanje usana koje ne proivodi artikulisani govor.,0,1
 izazvati iznenadni strah u kome ili ispuniti koga iznenadnom panikom,1,0
-smanjiti bol ili neprijatnosti ; ublažiti,1,0
-grozničnica,1,0
-Biti podvrgnut nečem neprijatnom.,1,0
-Podvrgnuti nedobronamernom smehu.,1,0
-učiniti da neko ili nešto ne bude osetljiv ili osetljivo,0,1
+loše mirisati,0,1
 čin namernog odstupanja od istine,0,1
-nemogućnost prisustva,1,0
-svako odstupanje od zdravog ili normanog stanja,0,1
-neprijateljski stav,0,1
-Dobiti neku bolest.,1,0
-Ispuštati vonj.,0,1
-gubljenje sposobnosti da normalno funkcioniše,1,0
-Kvalitet nekog ili nečega što ima slabiju ili manje poželjnu poziciju.,0,1
-nedostatak pažnje (prema deci ili bespomoćnim ljudima),1,0
-ponašati se na nekontrolisan način,1,0
-na nižem nivou po rangu ili značaju,0,1
-Stanje koje karakterišu osećanja u rasponu od blagog nezadovoljstva do dubokog bola.,0,1
-Stanje koje još ne odgovara zrelosti.,0,1
-nadmoćno osećanje straha i zebnje,1,0
+Patiti od nečega; bolovati od nečega.,0,1
+Ne biti podložan nečemu.,0,1
+Ne ostvariti ni profit ni gubitak.,1,0
+u stanju kada ne funkcioniše,1,0
+stanje bez oštećenja ili propadanja,1,0
+Otarasiti se nekoga ubistvom.,0,1
+Osećanja koja se javljaju kada osoba nije u srećnom stanju.,0,1
+ispunjen divljenjem i ushićenjem,0,1
+Stanje u kome se malo novca i materijalnih dobara.,0,1
+okoristiti se kakvim mogućnostima bez obzira na posledice za druge,0,1
+koga odrati (po pitanju cene); za šta nerazumnu cenu tražiti,0,1
+Bolest krvi ili narušavanje funkcionisanja krvnih ćelija.,0,1
+svako ko veruje da nije u stanju da promeni svoju sudbinu,1,0
+ponašanje koje nije u skladu sa prihvaćenim standardima,1,0
+prolivanje krvi koje za posledicu ima ubistvo,0,1
+Pokušaj da se za sebe dobije lično priznanje (posebno neprihvatljivim sredstvima).,0,1
+smanjiti bol ili neprijatnosti ; ublažiti,1,0
+"Ono što nije lako, zahteva veliki fizički ili mentalni napor da bi se ostvarilo. razumelo ili izdržalo.",0,1
+Opovrgavanje ili povlačenje prethodne tvrdnje.,0,1

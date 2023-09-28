@@ -89,7 +89,7 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     tokenised_train =dataset_train.map(preprocess_function)
     
     # Define output directory
-    outputdir = f"BERTovoSENT{polarity}{i}"
+    outputdir = f"BERTicovoSENT{polarity}{i}"
     
     # Set up data collator, accuracy metric, and training arguments
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
@@ -129,8 +129,10 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     
     # Train model and push to hub
     trainer.train()
-    max_attempts = 3    
-        for attempt in range(max_attempts):
+    max_attempts = 3
+    
+    
+    for attempt in range(max_attempts):
         try:
             # Try to push the model to the hub
             trainer.push_to_hub()
@@ -224,4 +226,112 @@ def test_model(i, polarity):
     torch.cuda.empty_cache()
 
     
+def test_model_local(i, polarity):
+    """
+    Function that tests a model saved on disk on the test set and saves the results to a file
+    :param i: Dataset iteration
+    :param polarity: Polarity of the model
+    :return: None
+    """
 
+
+    # Empty GPU cache before testing model
+    torch.cuda.empty_cache()
+
+    # Construct file name
+    name = f"UP{polarity}{i}.csv"
+    
+    # Load the test data
+    X_test = pd.read_csv(os.path.join(TRAIN_DIR, f"X_test_{name}"))["Sysnet"]
+    y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
+    X_test = X_test.fillna("")    
+    # Construct model name
+    model_name = f"BERTicovoSENT{polarity}{i}"
+    
+    # Load model using pipeline
+    pipe = pipeline("text-classification", model=model_name)
+    
+    # Define label to id mapping
+    label2id = {"NON-POSITIVE": 0, "POSITIVE": 1}
+    if (polarity =="NEG"):
+        label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
+    
+    # Process test data through pipeline
+    data = pipe(X_test.to_list())
+    
+    # Convert the list of dictionaries into a pandas DataFrame
+    df = pd.DataFrame(data)
+    
+    # Convert the 'label' column into a series where 'NON-POSITIVE' is 0 and 'POSITIVE' is 1
+    df['label'] = df['label'].map(label2id)
+    
+    # Convert 'label' column into a series
+    series = df['label']
+    predicted_classes = series.values
+    
+    # Compute confusion matrix
+    y_test_np = y_test.values
+    confusion_mat = confusion_matrix(y_test_np, predicted_classes)
+    
+    print(confusion_mat)
+    classification_rep = classification_report(y_test_np, predicted_classes)
+    
+    print(classification_rep)
+    
+    # Write confusion matrix and classification report to a file
+    with open(os.path.join(REP_DIR, f"report_{name}.txt"), "w") as f:
+        f.write(str(confusion_mat))
+        f.write("\n\n")
+        f.write(classification_rep)
+    
+    # Create a DataFrame with test data, predicted classes and real classes
+    table = pd.DataFrame({"X": X_test, "Predicted": predicted_classes, 
+                          "Real": y_test})
+    
+    # Create a table of misclassified instances
+    misclassified_X = table[table["Predicted"] != table["Real"]]
+    
+    # Save the table of misclassified instances to a file
+    misclassified_X.to_csv(os.path.join(REP_DIR, f"table_{name}.csv"), index=False)
+    
+    # Delete the pipeline to free up memory
+    del pipe
+    torch.cuda.empty_cache()    
+
+#function that load model and tokenized and pushset ot hup, overwring the chekpoint if neceeary
+def upload_local_model_to_hub(i, polarity):
+
+    
+
+    model_name_local = f"BERTicovoSENT{polarity}{i}"
+    model_name_hub = f"Tanor/BERTicovoSENT{polarity}{i}"
+    tokenizer = AutoTokenizer.from_pretrained(model_name_local)
+    if (polarity =="NEG"):
+        id2label = {0: "NON-NEGATIVE", 1: "NEGATIVE"}
+        label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
+    else:
+        id2label = {0: "NON-POSITIVE", 1: "POSITIVE"}
+        label2id = {"NON-POSITIVE": 0, "POSITIVE": 1}
+
+    model = AutoModelForSequenceClassification.from_pretrained(
+        model_name_local, num_labels=2,  id2label=id2label, 
+        label2id=label2id, )
+    
+    max_attempts = 3
+
+    for attempt in range(max_attempts):
+           
+        try:
+            # Try to push the model to the hub
+            model.push_to_hub(model_name_hub)
+            tokenizer.push_to_hub(model_name_hub)
+
+            # If the push is successful, exit the loop
+            break
+    
+        except Exception as e:
+            print(f"Push attempt {attempt+1} failed with error: {e}")
+    
+            # If this wasn't the last attempt, wait before trying again
+            if attempt < max_attempts - 1:
+                time.sleep(10)
