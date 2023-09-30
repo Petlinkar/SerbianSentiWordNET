@@ -49,11 +49,10 @@ class SentimentPipeline:
         if texts is None:
             texts = [""]
         results = []
-        for text in texts:
-            # Run the text through the pipelines
-            pos_result = self.pos_pipeline(text)[0]
-            neg_result = self.neg_pipeline(text)[0]
-
+        # Run the text through the pipelines
+        pos_results = self.pos_pipeline(texts)
+        neg_results = self.neg_pipeline(texts)
+        for pos_result, neg_result in zip(pos_results, neg_results):
             # Calculate probabilities for positive/non-positive and negative/non-negative.
             # If the label is POSITIVE/NEGATIVE, the score for positive/negative is the score returned by the model, 
             # and the score for non-positive/non-negative is 1 - the score returned by the model.
@@ -113,12 +112,21 @@ class SentimentPipelineAvg:
         # Check if input is a single string. If it is, convert it into a list.
         if isinstance(texts, str):
             texts = [texts]
+        if texts is None:
+            texts = [""]
         results = []
-        for text in texts:
-            # Run the text through the pipelines
-            # Calculate the average of the scores from the pipelines
-            # Append the scores to the results
-            results.append({"POS": sum([pipeline(text)["POS"] for pipeline in self.pipelines])/len(self.pipelines), "NEG": sum([pipeline(text)["NEG"] for pipeline in self.pipelines])/len(self.pipelines), "OBJ": sum([pipeline(text)["OBJ"] for pipeline in self.pipelines])/len(self.pipelines)})
+        infered = []
+        for pipe in self.pipelines:
+            #run text trough pipelines
+            infered.append(pipe(texts))
+        for i in range(len(texts)):
+            POS = sum([inf[i]["POS"] for inf in infered]) / len(self.pipelines)
+            NEG = sum([inf[i]["NEG"] for inf in infered]) / len(self.pipelines)
+            OBJ = sum([inf[i]["OBJ"] for inf in infered]) / len(self.pipelines)
+            results.append({"POS": POS, "NEG": NEG, "OBJ": OBJ})
+
+
+
         # If the input was a single string, return a single dictionary. Otherwise, return a list of dictionaries.
         return results if len(results) > 1 else results[0]  
 
@@ -158,10 +166,12 @@ def inferLLM (base, output_file_number):
     :param output_file: path to the output csv file
     """
     df = get_definions_dataframe()
+    df["Definicija"].fillna("", inplace=True)
+    df["Definicija"] = df["Definicija"].astype(str)
     pipe_paths = get_pipe_paths(base)
     pipe = SentimentPipelineAvg()
     pipe.addAll(pipe_paths)
-    inf= pipe(df["Definicija"])
+    inf = pipe(df["Definicija"].tolist())
     dr_inf = pd.DataFrame(inf)
     df = pd.concat([df, dr_inf], axis=1)
     filename = f"srbsentiwordnet_a{output_file_number}.csv"
@@ -177,8 +187,28 @@ def main():
     print("Starting...")
     print("Infering BERTic...")
     inferLLM("BERTic", 5)
-    print("Infering SRGPT...")
-    inferLLM("SRGPT", 6)
+    # print("Setting model repo to public...")
+    # set_model_repo_to_public()
+    # print("Infering SRGPT...")
+    # inferLLM("SRGPT", 6)
+def set_model_repo_to_public():
+    """
+    Function that changes existing model repository from private to public
+    :param name: name of the model repository
+    """
+    from huggingface_hub import update_repo_visibility
+    ids = get_pipe_paths("SRGPT")
+    for repo_id in ids:
+        repo_id_pos, repo_id_neg = repo_id
+        update_repo_visibility(repo_id=repo_id_pos, private=False)
+        update_repo_visibility(repo_id=repo_id_neg, private=False)
+    ids = get_pipe_paths("BERTic")
+    for repo_id in ids:
+        repo_id_pos, repo_id_neg = repo_id
+        update_repo_visibility(repo_id=repo_id_pos, private=False)
+        update_repo_visibility(repo_id=repo_id_neg, private=False)
+
+
 
 if __name__ == "__main__":
     main()
