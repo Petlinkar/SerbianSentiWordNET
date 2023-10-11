@@ -26,7 +26,7 @@ ROOT_DIR = ""
 RES_DIR = os.path.join(ROOT_DIR, "resources")
 MOD_DIR = os.path.join(ROOT_DIR, "ml_models")
 TRAIN_DIR = os.path.join(ROOT_DIR, "train_sets")
-REP_DIR = os.path.join(ROOT_DIR, "reports", "SRGPT")
+REP_DIR = os.path.join(ROOT_DIR, "reports", "OraoFrozen")
 maxlen = 300
 # Create directory if not exists
 if not os.path.exists(REP_DIR):
@@ -100,14 +100,15 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     if (polarity =="NEG"):
         id2label = {0: "NON-NEGATIVE", 1: "NEGATIVE"}
         label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
-
-    model_name = f"Tanor/SRGPTSENT{polarity}{i}"
+    model_name = r"jerteh/gpt2-orao"
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(
         model_name, num_labels=2,  id2label=id2label, 
         label2id=label2id, )
 
+    for param in model.transformer.parameters():
+        param.requires_grad = False
 
     dataset_val = Dataset.from_pandas(pd.concat([X_val, y_val], axis=1))
     dataset_train = Dataset.from_pandas(pd.concat([X_train, y_train], axis=1))
@@ -116,7 +117,7 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
     tokenised_val=dataset_val.map(preprocess_function)
     tokenised_train =dataset_train.map(preprocess_function)
 
-    ouputdir = f"SRGPTSENT{polarity}{i}"
+    ouputdir = f"ORAOFROZEN{polarity}{i}"
     data_collator = DataCollatorWithPadding (tokenizer=tokenizer, padding  =False)
     accuracy = evaluate.load("accuracy")
     f1_score = evaluate.load("f1")
@@ -183,7 +184,7 @@ def test_model(i, polarity):
     y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
     X_test = X_test.fillna("")        
     # Construct model name
-    model_name = f"Tanor/SRGPTSENT{polarity}{i}"
+    model_name = f"Tanor/ORAOFROZEN{polarity}{i}"
     
     # Load model using pipeline
     pipe = pipeline("text-classification", model=model_name)
@@ -256,7 +257,7 @@ def test_model_local(i, polarity):
     y_test = pd.read_csv(os.path.join(TRAIN_DIR, f"y_test_{name}"))[polarity]
     X_test = X_test.fillna("")    
     # Construct model name
-    model_name = f"SRGPTSENT{polarity}{i}"
+    model_name = f"ORAOFROZEN{polarity}{i}"
     
     # Load model using pipeline
     pipe = pipeline("text-classification", model=model_name)
@@ -313,8 +314,8 @@ def upload_local_model_to_hub(i, polarity):
 
     
 
-    model_name_local = f"SRGPTSENT{polarity}{i}"
-    model_name_hub = f"Tanor/SRGPTSENT{polarity}{i}"
+    model_name_local = f"ORAOFROZEN{polarity}{i}"
+    model_name_hub = f"Tanor/ORAOFROZEN{polarity}{i}"
     tokenizer = AutoTokenizer.from_pretrained(model_name_local)
     if (polarity =="NEG"):
         id2label = {0: "NON-NEGATIVE", 1: "NEGATIVE"}
@@ -347,17 +348,16 @@ def upload_local_model_to_hub(i, polarity):
                 time.sleep(10)
 
 def delete_model(i, polarity):
+    from huggingface_hub import delete_repo
+
     """
     Function that deletes a model from the hub
     :param i: Dataset iteration
     :param polarity: Polarity of the model
     :return: None
     """
-    from huggingface_hub import delete_repo
     # Construct model name
-    model_name = f"Tanor/SRGPTSENT{polarity}{i}"
+    model_name = f"Tanor/ORAOFROZEN{polarity}{i}"
     
-    # Delete model from the hub
+    # Delete the model
     delete_repo(model_name)
-    
- 
