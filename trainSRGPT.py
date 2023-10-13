@@ -101,7 +101,8 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
         id2label = {0: "NON-NEGATIVE", 1: "NEGATIVE"}
         label2id = {"NON-NEGATIVE": 0, "NEGATIVE": 1}
 
-    model_name = f"Tanor/SRGPTSENT{polarity}{i}"
+    model_name = r"jerteh/gpt2-orao"
+
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(

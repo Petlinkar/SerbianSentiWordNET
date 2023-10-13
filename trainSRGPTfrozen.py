@@ -107,8 +107,11 @@ def train_model (i, polarity, eval = "accuracy", epochs=16):
         model_name, num_labels=2,  id2label=id2label, 
         label2id=label2id, )
 
-    for param in model.transformer.parameters():
+    for param in model.transformer.wte.parameters():
         param.requires_grad = False
+    for param in model.transformer.wpe.parameters():
+        param.requires_grad = False
+
 
     dataset_val = Dataset.from_pandas(pd.concat([X_val, y_val], axis=1))
     dataset_train = Dataset.from_pandas(pd.concat([X_train, y_train], axis=1))

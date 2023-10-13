@@ -340,4 +340,7 @@ def upload_local_model_to_hub(i, polarity):
             if attempt < max_attempts - 1:
                 time.sleep(10)
 
-
+def delete_model(i, polarity):
+    from huggingface_hub import delete_repo
+    model_name = f"BERTicSENT{polarity}{i}"
+    delete_repo(model_name)
