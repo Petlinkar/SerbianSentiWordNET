@@ -12,28 +12,44 @@ Author: Sasa Petalinkar
 from srpskiwordnet import SrbWordNetReader
 from joblib import load
 import pandas as pd
-
+import numpy as np
 
 def estimate_polarity(text, est_POS, est_NEG):
-    a = est_POS.predict(text)
-    b = est_NEG.predict(text)
-    return (a * (1 - b), b * (1 - a))  
+    a = np.around(est_POS.predict(text))
+    b = np.around(est_NEG.predict(text))
+    return (a * (1 - b), b * (1 - a))
 
 
-def estimate_polarity_table(text, df): 
-    sentiment = list()
+
+
+def estimate_polarity_table(texts, df): 
+    sentiments_POS = []
+    sentiments_NEG = []
+    
     for t in TYPE:
-        filter2 = df["Tip"] == t
         for i in ITERATION:
             filter1 = df["Iteracija"] == i
+            filter2 = df["Tip"] == t
+            
             filter3 = df["Polaritet"] == "NEG"
-            est_NEG = estimators.where(filter1 & filter2 & filter3).dropna().reset_index()["Model"][0]
+            est_NEG = df.where(filter1 & filter2 & filter3).dropna().reset_index()["Model"][0]
             filter3 = df["Polaritet"] == "POS"
-            est_POS = estimators.where(filter1 & filter2 & filter3).dropna().reset_index()["Model"][0]
-            sentiment.append(estimate_polarity(text, est_POS, est_NEG))
+            est_POS = df.where(filter1 & filter2 & filter3).dropna().reset_index()["Model"][0]
+            
+            pos_vals, neg_vals = estimate_polarity(texts, est_POS, est_NEG)
+            sentiments_POS.append(pos_vals)
+            sentiments_NEG.append(neg_vals)
 
-    res = tuple([sum(ele) / len(sentiment) for ele in zip(*sentiment)])
-    return res
+    avg_POS = np.mean(sentiments_POS, axis=0)
+    avg_NEG = np.mean(sentiments_NEG, axis=0)
+    
+    for idx, (pos_val, neg_val) in enumerate(zip(avg_POS, avg_NEG)):
+        if not (pos_val * 8).is_integer() or not (neg_val * 8).is_integer():
+            print(f"Text: {texts[idx]}")
+            print(f"Sentiment Value POS: {pos_val}, NEG: {neg_val}")
+            print("-"*50)
+
+    return avg_POS, avg_NEG
 
 
 def sentiment_analyze_df(swn):  # Fixed typo in function name
