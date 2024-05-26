@@ -185,28 +185,28 @@ def inferLLM (base, output_file_number):
 
 def main():
     print("Starting...")
-    print("Infering BERTic...")
-    inferLLM("BERTic", 5)
+    # print("Infering BERTic...")
+    # inferLLM("BERTic", 5)
     # print("Setting model repo to public...")
     # set_model_repo_to_public()
     # print("Infering SRGPT...")
     # inferLLM("SRGPT", 6)
-def set_model_repo_to_public():
+    print("Infering Jerteh355...")
+    inferLLM("Jerteh355", 7)
+    set_model_repo_to_public("Jerteh355")
+    print("Done!")
+def set_model_repo_to_public(basemodel):
     """
     Function that changes existing model repository from private to public
     :param name: name of the model repository
     """
     from huggingface_hub import update_repo_visibility
-    ids = get_pipe_paths("SRGPT")
+    ids = get_pipe_paths(basemodel)
     for repo_id in ids:
         repo_id_pos, repo_id_neg = repo_id
         update_repo_visibility(repo_id=repo_id_pos, private=False)
         update_repo_visibility(repo_id=repo_id_neg, private=False)
-    ids = get_pipe_paths("BERTic")
-    for repo_id in ids:
-        repo_id_pos, repo_id_neg = repo_id
-        update_repo_visibility(repo_id=repo_id_pos, private=False)
-        update_repo_visibility(repo_id=repo_id_neg, private=False)
+
 
 
 
