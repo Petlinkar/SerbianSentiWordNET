@@ -122,7 +122,7 @@ def train_model (i, polarity, eval = "f1", epochs=16):
         tokenizer=tokenizer,
         data_collator=data_collator,
         compute_metrics=compute_metrics,
-        callbacks=[EarlyStoppingCallback(early_stopping_patience=3)], # wait for '3' evaluation steps without improvement.
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=5)], # wait for '3' evaluation steps without improvement.
 
     )
     
